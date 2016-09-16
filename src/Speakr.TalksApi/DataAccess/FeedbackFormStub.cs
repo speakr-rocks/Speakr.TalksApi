@@ -1,9 +1,5 @@
-﻿using Speakr.TalksApi.Models;
-using Speakr.TalksApi.Models.FeedbackForm;
-using System;
+﻿using Speakr.TalksApi.Models.FeedbackForm;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Speakr.TalksApi.DataAccess
 {
