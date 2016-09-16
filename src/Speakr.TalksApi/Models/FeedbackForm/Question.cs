@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Speakr.TalksApi.Models.FeedbackForm
+﻿namespace Speakr.TalksApi.Models.FeedbackForm
 {
     public class Question
     {
