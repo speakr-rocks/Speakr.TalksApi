@@ -1,3 +1,3 @@
-[![Build Status](https://travis-ci.org/speakr-rocks/Speakr.TalksApi.svg?branch=master)](https://travis-ci.org/speakr-rocks/Speakr.WebApp)
+[![Build Status](https://travis-ci.org/speakr-rocks/Speakr.TalksApi.svg?branch=master)](https://travis-ci.org/speakr-rocks/Speakr.talksapi)
 
 # Speakr.TalksApi 
