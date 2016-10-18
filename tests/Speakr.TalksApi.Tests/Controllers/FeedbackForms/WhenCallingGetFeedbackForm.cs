@@ -4,10 +4,10 @@ using Speakr.TalksApi.Controllers;
 using Speakr.TalksApi.Models.FeedbackForm;
 using System.Threading.Tasks;
 
-namespace Speakr.TalksApi.Tests
+namespace Speakr.TalksApi.Tests.Controllers.FeedbackForms
 {
     [TestFixture]
-    public class FeedbackFormsControllerTests
+    public class WhenCallingGetFeedbackForms
     {
         [Test]
         public async Task FeedbackFormsReturns200()
@@ -21,7 +21,7 @@ namespace Speakr.TalksApi.Tests
         }
 
         [Test]
-        public async Task TalksFormsReturnsForm()
+        public async Task FeedbackFormsReturnsForm()
         {
             FeedbackFormsController talkFormsController = new FeedbackFormsController();
             var result = await talkFormsController.GetFeedbackFormsAsync("12345");
@@ -33,7 +33,7 @@ namespace Speakr.TalksApi.Tests
         }
 
         [Test]
-        public async Task TalksFormsReturns404()
+        public async Task FeedbackFormsReturns404()
         {
             FeedbackFormsController talkFormsController = new FeedbackFormsController();
             var result = await talkFormsController.GetFeedbackFormsAsync("abcde");
