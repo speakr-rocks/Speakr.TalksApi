@@ -1,4 +1,6 @@
-﻿namespace Speakr.TalksApi.Models.FeedbackForm
+﻿using Speakr.TalksApi.DataAccess.Templates;
+
+namespace Speakr.TalksApi.Models.FeedbackForm
 {
     public class Question
     {
