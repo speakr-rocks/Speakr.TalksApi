@@ -17,7 +17,6 @@ namespace Speakr.TalksApi
 
         private void MakeDbConnectionString()
         {
-            var test = Configuration["SSSSSSS"];
             var dbServer = Configuration["SPEAKR_DB_SERVER"];
             var dbName = Configuration["SPEAKR_DB_NAME"];
             var dbUserName = Configuration["SPEAKR_DB_USER"];
