@@ -3,6 +3,17 @@ language: generic
 sudo: required
 dist: trusty
 
+addons:
+  apt:
+    packages:
+      - mysql-server-5.6
+      - mysql-client-core-5.6
+      - mysql-client-5.6
+
+before_install:
+  - mysql -u root -e 'create database speakrdb;'
+  - echo "USE mysql;\nUPDATE user SET password=PASSWORD('root') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -u root
+
 install:
 # Install .net using linux CLI commands
   - sudo sh -c 'echo "deb [arch=amd64] https://apt-mo.trafficmanager.net/repos/dotnet-release/ trusty main" > /etc/apt/sources.list.d/dotnetdev.list' 
@@ -15,6 +26,7 @@ script:
   - dotnet build src/Speakr.TalksApi
   - dotnet build tests/Speakr.TalksApi.Tests
   - dotnet test tests/Speakr.TalksApi.Tests -f netcoreapp1.0
+  - dotnet test tests/Speakr.TalksApi.AcceptanceTests -f netcoreapp1.0
 
 before_deploy:
   - zip -r $(date +'TalksApi-%F').zip *

@@ -7,8 +7,7 @@
     },
     "NUnit": "3.5.0",
     "Microsoft.AspNetCore.TestHost": "1.0.0",
-    "dotnet-test-nunit": "3.4.0-beta-2",
-    "FakeItEasy": "2.4.0-netstd-build000033"
+    "dotnet-test-nunit": "3.4.0-beta-2"
   },
 
   "testRunner": "nunit",
