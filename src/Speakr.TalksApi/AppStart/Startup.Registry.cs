@@ -10,7 +10,7 @@ namespace Speakr.TalksApi
         {
             services.AddSingleton(provider => Configuration);
             services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
-            services.AddTransient<IDapper>();
+            services.AddTransient<IDapper, DataAccess.DbAccess.Dapper>();
         }
     }
 }
