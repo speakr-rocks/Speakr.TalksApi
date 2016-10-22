@@ -4,7 +4,7 @@ using Speakr.TalksApi.Controllers;
 using Speakr.TalksApi.Models.FeedbackForm;
 using System.Threading.Tasks;
 
-namespace Speakr.TalksApi.Tests.Controllers.FeedbackForms
+namespace Speakr.TalksApi.Tests.Areas.Feedback
 {
     [TestFixture]
     public class WhenCallingGetFeedbackForms

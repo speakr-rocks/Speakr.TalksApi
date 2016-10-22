@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using Dapper;
 
-namespace Speakr.TalksApi.DataAccess.Dapper
+namespace Speakr.TalksApi.DataAccess.DbAccess
 {
     public class Dapper : IDapper
     {

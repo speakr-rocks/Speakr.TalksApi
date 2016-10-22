@@ -2,13 +2,13 @@
 using NUnit.Framework;
 using Speakr.TalksApi.DataAccess;
 
-namespace Speakr.TalksApi.Tests.DataAccess
+namespace Speakr.TalksApi.AcceptanceTests.DbConnection
 {
     [TestFixture]
     public class WhenVerifyingDbConnection
     {
         [Test]
-        public void VerifyConnectionDoesNotThrowAndReturns1()
+        public void VerifyConnectionDoesNotThrow()
         {
             var builder = new ConfigurationBuilder();
             builder.AddInMemoryCollection();
@@ -16,9 +16,9 @@ namespace Speakr.TalksApi.Tests.DataAccess
             var config = builder.Build();
             config["DbConnectionString"] = "Server=127.0.0.1;Database=speakrdb;Uid=root;Pwd=root;";
 
-            var dapperDb = new Speakr.TalksApi.DataAccess.Dapper.Dapper(config);
+            var dapperDb = new DataAccess.DbAccess.Dapper(config);
 
-            var repo = new Repository<int>(dapperDb);
+            var repo = new Repository<string>(dapperDb);
             var result = repo.VerifyConnection();
 
             Assert.That(result, Is.EqualTo("1"));

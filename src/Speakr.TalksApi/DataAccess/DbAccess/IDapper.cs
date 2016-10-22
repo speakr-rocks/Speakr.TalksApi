@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Speakr.TalksApi.DataAccess.Dapper
+namespace Speakr.TalksApi.DataAccess.DbAccess
 {
     public interface IDapper
     {

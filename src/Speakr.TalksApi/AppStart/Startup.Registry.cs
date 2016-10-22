@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Speakr.TalksApi.DataAccess;
-using Speakr.TalksApi.DataAccess.Dapper;
+using Speakr.TalksApi.DataAccess.DbAccess;
 
 namespace Speakr.TalksApi
 {
@@ -10,7 +10,7 @@ namespace Speakr.TalksApi
         {
             services.AddSingleton(provider => Configuration);
             services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
-            services.AddTransient<IDapper,DataAccess.Dapper.Dapper>();
+            services.AddTransient<IDapper>();
         }
     }
 }

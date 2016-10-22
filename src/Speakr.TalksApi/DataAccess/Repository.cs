@@ -1,4 +1,4 @@
-﻿using Speakr.TalksApi.DataAccess.Dapper;
+﻿using Speakr.TalksApi.DataAccess.DbAccess;
 using System.Linq;
 
 namespace Speakr.TalksApi.DataAccess

@@ -14,7 +14,7 @@ namespace Speakr.TalksApi.DataAccess.Templates
                     QuestionId = "Question-1",
                     QuestionText = "How much did you enjoy the talk?",
                     Answer = "",
-                    ResponseType = AnswerTypes.Emoji,
+                    AnswerType = AnswerTypes.Emoji,
                     IsRequired = true
                 },
 
@@ -23,7 +23,7 @@ namespace Speakr.TalksApi.DataAccess.Templates
                     QuestionId = "Question-2",
                     QuestionText = "How would you rate this talk?",
                     Answer = "",
-                    ResponseType = AnswerTypes.Rating,
+                    AnswerType = AnswerTypes.Rating,
                     IsRequired = false
                 },
 
@@ -32,7 +32,7 @@ namespace Speakr.TalksApi.DataAccess.Templates
                     QuestionId = "Question-3",
                     QuestionText = "Did you learn anything useful?",
                     Answer = "",
-                    ResponseType = AnswerTypes.YesNo,
+                    AnswerType = AnswerTypes.YesNo,
                     IsRequired = true
                 },
 
@@ -41,7 +41,7 @@ namespace Speakr.TalksApi.DataAccess.Templates
                     QuestionId = "Question-4",
                     QuestionText = "Would you recommend this talk to a friend/colleague?",
                     Answer = "",
-                    ResponseType = AnswerTypes.YesNo,
+                    AnswerType = AnswerTypes.YesNo,
                     IsRequired = false
                 },
 
@@ -50,7 +50,7 @@ namespace Speakr.TalksApi.DataAccess.Templates
                     QuestionId = "Question-5",
                     QuestionText = "Do you have any suggestions to improve this talk?",
                     Answer = "",
-                    ResponseType = AnswerTypes.Text,
+                    AnswerType = AnswerTypes.Text,
                     IsRequired = true
                 },
 
@@ -59,7 +59,7 @@ namespace Speakr.TalksApi.DataAccess.Templates
                     QuestionId = "Question-6",
                     QuestionText = "Any other comments?",
                     Answer = "",
-                    ResponseType = AnswerTypes.Text,
+                    AnswerType = AnswerTypes.Text,
                     IsRequired = false
                 }
             };
