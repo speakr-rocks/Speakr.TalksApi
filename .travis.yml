@@ -15,6 +15,7 @@ script:
   - dotnet build src/Speakr.TalksApi
   - dotnet build tests/Speakr.TalksApi.Tests
   - dotnet test tests/Speakr.TalksApi.Tests -f netcoreapp1.0
+  - dotnet test tests/Speakr.TalksApi.AcceptanceTests -f netcoreapp1.0
 
 before_deploy:
   - zip -r $(date +'TalksApi-%F').zip *
