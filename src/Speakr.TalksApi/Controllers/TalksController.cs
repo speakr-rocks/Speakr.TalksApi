@@ -4,6 +4,7 @@ using Speakr.TalksApi.DataAccess.Templates;
 using Speakr.TalksApi.Models.Talks;
 using System;
 using System.Threading.Tasks;
+using System.Web.Http;
 
 namespace Speakr.TalksApi.Controllers
 {
@@ -17,29 +18,21 @@ namespace Speakr.TalksApi.Controllers
             _dbRepository = repository;
         }
 
-        [Route("")]
         [HttpGet]
-        public async Task<IActionResult> GetTalkByEasyAccessKey(string easyAccessKey)
+        [Route("")]
+        [Produces(typeof(TalkDTO))]
+        public async Task<IActionResult> GetTalkById([FromQuery] int talkId)
         {
-            return Ok();
+            var talkDTO = _dbRepository.GetTalkById(talkId);
+
+            if(talkDTO == null)
+                return NotFound();
+
+            return Ok(talkDTO);
         }
 
-        [Route("")]
-        [HttpGet]
-        public async Task<IActionResult> GetTalkById(int talkId)
-        {
-            var expectedDto = new TalkDTO
-            {
-                Id = talkId,
-                TalkEasyAccessKey = "Clever_Einstein",
-                TalkName = "Talk 101",
-            };
-
-            return Ok(expectedDto);
-        }
-
-        [Route("")]
         [HttpPost]
+        [Route("")]
         public async Task<IActionResult> PostTalk([FromBody]TalkCreationRequest request)
         {
             var talkDTO = CreateNewTalk(request);

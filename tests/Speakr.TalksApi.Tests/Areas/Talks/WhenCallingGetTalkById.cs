@@ -14,7 +14,7 @@ namespace Speakr.TalksApi.Tests.Areas.Talks
     public class WhenCallingGetTalkById
     {
         [Test]
-        public async Task Returns200IfSuccessful()
+        public async Task ThenItReturns200IfSuccessful()
         {
             var talkId = 12345551;
 
@@ -42,6 +42,28 @@ namespace Speakr.TalksApi.Tests.Areas.Talks
             Assert.That(result, Is.TypeOf<OkObjectResult>());
             Assert.That(response.StatusCode, Is.EqualTo(200));
             Assert.That(model.Id, Is.EqualTo(talkId));
+        }
+
+        [Test]
+        public async Task ThenItReturns404IfNotFound()
+        {
+            var talkId = 12345551;
+
+            var db = A.Fake<IDapper>();
+
+            A.CallTo(() =>
+                db.Query<TalkDTO>(
+                    A<string>.That.Contains("SELECT"),
+                    A<object>.Ignored)
+                ).Returns(new List<TalkDTO>());
+
+            var dbRepository = new Repository(db);
+            var talksController = new TalksController(dbRepository);
+            var result = await talksController.GetTalkById(talkId);
+            var response = (NotFoundResult)result;
+
+            Assert.That(response, Is.TypeOf<NotFoundResult>());
+            Assert.That(response.StatusCode, Is.EqualTo(404));
         }
     }
 }

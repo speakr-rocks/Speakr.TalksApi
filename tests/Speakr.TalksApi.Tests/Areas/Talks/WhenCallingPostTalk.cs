@@ -16,7 +16,7 @@ namespace Speakr.TalksApi.Tests.Areas.Talks
     public class WhenCallingPostTalk
     {
         [Test]
-        public async Task Returns200IfSuccessful()
+        public async Task ThenItReturns201IfSuccessful()
         {
             var db = A.Fake<IDapper>();
 
@@ -106,7 +106,7 @@ namespace Speakr.TalksApi.Tests.Areas.Talks
         }
 
         [Test]
-        public async Task ReturnsCreatedResponseProperlyFilledIn()
+        public async Task ThenItReturnsCreatedResponseProperlyFilledIn()
         {
             var db = A.Fake<IDapper>();
 

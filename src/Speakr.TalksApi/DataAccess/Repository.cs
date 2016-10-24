@@ -4,6 +4,7 @@ using Speakr.TalksApi.Models.FeedbackForm;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Speakr.TalksApi.Models.Talks;
+using System;
 
 namespace Speakr.TalksApi.DataAccess
 {
@@ -43,6 +44,17 @@ namespace Speakr.TalksApi.DataAccess
                 @TalkStartTime,@QuestionnaireId);
                 SELECT LAST_INSERT_ID()";
             return _dapper.Query<int>(query, talkDTO).FirstOrDefault();
+        }
+
+        public TalkDTO GetTalkById(int talkId)
+        {
+            var query = @"SELECT * FROM `talks` WHERE `TalkID` = @talkId";
+            return _dapper.Query<TalkDTO>(query, new { talkId }).FirstOrDefault();
+        }
+
+        public FeedbackForm GetFeedbackForm(string easyAccessKey)
+        {
+            throw new NotImplementedException();
         }
     }
 }
