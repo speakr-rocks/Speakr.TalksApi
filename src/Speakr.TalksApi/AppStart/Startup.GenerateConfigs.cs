@@ -21,9 +21,10 @@ namespace Speakr.TalksApi
             var dbName = Configuration["SPEAKR_DB_NAME"];
             var dbUserName = Configuration["SPEAKR_DB_USER"];
             var dbPassword = Configuration["SPEAKR_DB_PASSWORD"];
+            var allowUserVariables = "Allow User Variables=True";
 
             Configuration["DbConnectionString"] =
-                $"Server={dbServer};Database={dbName};Uid={dbUserName};Pwd={dbPassword};";
+                $"Server={dbServer};Database={dbName};Uid={dbUserName};Pwd={dbPassword};{allowUserVariables}";
         }
     }
 }
