@@ -28,7 +28,7 @@ namespace Speakr.TalksApi.DataAccess
             var query = @"INSERT INTO `Questionnaires` (Questionnaire) 
                           VALUES (@serializedQuestionnaire);
                           SELECT LAST_INSERT_ID();";
-            return _dapper.Query<int>(query, new { serializedQuestionnaire }).FirstOrDefault();
+            return _dapper.Query<int>(query, new {serializedQuestionnaire}).FirstOrDefault();
         }
 
         public int InsertTalk(TalkDTO talkDTO)
@@ -49,19 +49,19 @@ namespace Speakr.TalksApi.DataAccess
         public TalkDTO GetTalkById(int talkId)
         {
             var query = @"SELECT * FROM `talks` WHERE `TalkID` = @talkId";
-            return _dapper.Query<TalkDTO>(query, new { talkId }).FirstOrDefault();
+            return _dapper.Query<TalkDTO>(query, new {talkId}).FirstOrDefault();
         }
 
         public TalkDTO GetTalkByEasyAccessKey(string easyAccessKey)
         {
             var query = @"SELECT * FROM `talks` WHERE `TalkEasyAccessKey` = @easyAccessKey";
-            return _dapper.Query<TalkDTO>(query, new { easyAccessKey }).FirstOrDefault();
+            return _dapper.Query<TalkDTO>(query, new {easyAccessKey}).FirstOrDefault();
         }
 
-        public FeedbackForm GetFeedbackForm(int talkId)
+        public FeedbackForm GetFeedbackForm(int questionnaireId)
         {
-            var query = @"SELECT * FROM `feedbacks` WHERE `TalkID` = @talkId";
-            return _dapper.Query<FeedbackForm>(query, new { talkId }).FirstOrDefault();
+            var query = @"SELECT `Questionnaire` FROM `questionnaires` WHERE `QuestionnaireId` = @questionnaireId";
+            return _dapper.Query<FeedbackForm>(query, new { questionnaireId }).FirstOrDefault();
         }
     }
 }

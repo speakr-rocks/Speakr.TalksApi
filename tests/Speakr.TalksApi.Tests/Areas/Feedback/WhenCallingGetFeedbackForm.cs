@@ -7,6 +7,7 @@ using Speakr.TalksApi.DataAccess.DbAccess;
 using Speakr.TalksApi.Models.FeedbackForm;
 using Speakr.TalksApi.Models.Talks;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Speakr.TalksApi.Tests.Areas.Feedback
@@ -32,7 +33,7 @@ namespace Speakr.TalksApi.Tests.Areas.Feedback
 
             _talkDTO = new TalkDTO
             {
-                Id = _talkId,
+                TalkID = _talkId,
                 TalkEasyAccessKey = "Clever_Einstein",
                 TalkName = "Talk 101",
             };
@@ -49,7 +50,7 @@ namespace Speakr.TalksApi.Tests.Areas.Feedback
 
             A.CallTo(() =>
                 _dapper.Query<FeedbackForm>(
-                    A<string>.That.Contains("SELECT * FROM `feedbacks`"),
+                    A<string>.That.Contains("SELECT * FROM `questionnaires`"),
                     A<object>.Ignored)
                 ).Returns(new List<FeedbackForm> { _feedbackForm });
 
@@ -81,6 +82,7 @@ namespace Speakr.TalksApi.Tests.Areas.Feedback
 
             Assert.That(response.Value, Is.TypeOf<FeedbackForm>());
             Assert.That(model.TalkId, Is.EqualTo("12345"));
+            Assert.That(model.Questionnaire.First().QuestionText, Is.EqualTo("How much did you enjoy the talk?"));
         }
 
         [Test]

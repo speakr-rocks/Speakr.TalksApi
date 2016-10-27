@@ -4,7 +4,7 @@ namespace Speakr.TalksApi.Models.Talks
 {
     public class TalkDTO
     {
-        public int? Id { get; set; }
+        public int? TalkID { get; set; }
         public string TalkEasyAccessKey { get; set; }
         public string TalkName { get; set; }
         public string TalkTopic { get; set; }

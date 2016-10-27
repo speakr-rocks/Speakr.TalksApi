@@ -35,8 +35,8 @@ namespace Speakr.TalksApi.Controllers
         public async Task<IActionResult> PostTalk([FromBody]TalkCreationRequest request)
         {
             var talkDTO = CreateNewTalk(request);
-            var easyAccessTalkKey = _dbRepository.InsertTalk(talkDTO);
-            return CreatedAtRoute("GetTalkById", easyAccessTalkKey);
+            var talkId = _dbRepository.InsertTalk(talkDTO);
+            return CreatedAtAction("GetTalkById", "?talkId=", talkId);
         }
 
         private TalkDTO CreateNewTalk(TalkCreationRequest request)

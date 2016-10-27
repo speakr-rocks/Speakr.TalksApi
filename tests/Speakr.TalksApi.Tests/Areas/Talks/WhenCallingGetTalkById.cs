@@ -20,7 +20,7 @@ namespace Speakr.TalksApi.Tests.Areas.Talks
 
             var expectedDto = new TalkDTO
             {
-                Id = talkId,
+                TalkID = talkId,
                 TalkEasyAccessKey = "Clever_Einstein",
                 TalkName = "Talk 101",
             };
@@ -41,7 +41,7 @@ namespace Speakr.TalksApi.Tests.Areas.Talks
 
             Assert.That(result, Is.TypeOf<OkObjectResult>());
             Assert.That(response.StatusCode, Is.EqualTo(200));
-            Assert.That(model.Id, Is.EqualTo(talkId));
+            Assert.That(model.TalkID, Is.EqualTo(talkId));
         }
 
         [Test]

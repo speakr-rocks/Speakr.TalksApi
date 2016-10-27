@@ -35,9 +35,9 @@ namespace Speakr.TalksApi.Tests.Areas.Talks
 
             var talksController = new TalksController(dbRepository);
             var result = await talksController.PostTalk(request);
-            var response = (CreatedAtRouteResult)result;
+            var response = (CreatedAtActionResult)result;
 
-            Assert.That(result, Is.TypeOf<CreatedAtRouteResult>());
+            Assert.That(result, Is.TypeOf<CreatedAtActionResult>());
             Assert.That(response.StatusCode, Is.EqualTo(201));
         }
 
@@ -61,7 +61,7 @@ namespace Speakr.TalksApi.Tests.Areas.Talks
 
             var talksController = new TalksController(dbRepository);
             var result = await talksController.PostTalk(request);
-            var response = (CreatedAtRouteResult)result;
+            var response = (CreatedAtActionResult)result;
 
             A.CallTo(() =>
                 db.Query<int>(
@@ -96,7 +96,7 @@ namespace Speakr.TalksApi.Tests.Areas.Talks
 
             var talksController = new TalksController(dbRepository);
             var result = await talksController.PostTalk(request);
-            var response = (CreatedAtRouteResult)result;
+            var response = (CreatedAtActionResult)result;
 
             A.CallTo(() =>
                 db.Query<int>(
@@ -137,9 +137,9 @@ namespace Speakr.TalksApi.Tests.Areas.Talks
 
             var talksController = new TalksController(dbRepository);
             var result = await talksController.PostTalk(request);
-            var response = (CreatedAtRouteResult)result;
+            var response = (CreatedAtActionResult)result;
 
-            Assert.That(response.RouteName, Is.EqualTo("GetTalkById"));
+            Assert.That(response.ActionName, Is.EqualTo("GetTalkById"));
             Assert.That(response.Value, Is.EqualTo(111111));
         }
     }
