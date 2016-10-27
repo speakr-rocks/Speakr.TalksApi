@@ -26,13 +26,19 @@ namespace Speakr.TalksApi.Controllers
             if (talkForm == null)
                 return NotFound();
 
-            var talkId = talkForm.Id;
-            var form = _dbRepository.GetFeedbackForm(talkId.Value);
+            //Pass the above talk into a mapper.
+            //Mapper should create feedback form and populate initial fields
+            //Below query should return a List<Questions> not a feedback form
+            //That list of questions gets assigned to feedback form and returned to controller
 
-            if (form == null)
-                return NotFound();
+            //var questionnaireId = talkForm.QuestionnaireId;
+            //var form = _dbRepository.GetFeedbackForm(questionnaireId);
 
-            return Ok(form);
+            //if (form == null)
+            //    return NotFound();
+
+            //return Ok(form);
+            return Ok(new FeedbackForm());
         }
     }
 }
