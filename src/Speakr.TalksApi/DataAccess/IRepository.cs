@@ -10,6 +10,7 @@ namespace Speakr.TalksApi.DataAccess
         int InsertQuestionnaire(IList<Question> defaultQuestionnaire);
         int InsertTalk(TalkDTO talkDTO);
         TalkDTO GetTalkById(int talkId);
-        FeedbackForm GetFeedbackForm(string easyAccessKey);
+        FeedbackForm GetFeedbackForm(int talkId);
+        TalkDTO GetTalkByEasyAccessKey(string easyAccessKey);
     }
 }

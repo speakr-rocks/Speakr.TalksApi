@@ -9,23 +9,30 @@ namespace Speakr.TalksApi.Controllers
     [Route("talks")]
     public class FeedbackFormsController : Controller
     {
-        //private IRepository _dbRepository;
+        private IRepository _dbRepository;
 
-        //public FeedbackFormsController(IRepository repository)
-        //{
-        //    _dbRepository = repository;
-        //}
+        public FeedbackFormsController(IRepository repository)
+        {
+            _dbRepository = repository;
+        }
 
         [HttpGet]
-        [Route("{talkId}/feedbackform")]
+        [Route("{easyAccessKey}/feedbackform")]
         [Produces(typeof(FeedbackForm))]
-        public async Task<IActionResult> GetFeedbackFormsAsync(string talkId)
+        public async Task<IActionResult> GetFeedbackFormsAsync(string easyAccessKey)
         {
-            //var form = _dbRepository.GetFeedbackForm(easyAccessKey);
-            if (talkId.Equals("abcde"))
+            var talkForm = _dbRepository.GetTalkByEasyAccessKey(easyAccessKey);
+
+            if (talkForm == null)
                 return NotFound();
 
-            return Ok(FeedbackFormStub.GetTalkById(talkId));
+            var talkId = talkForm.Id;
+            var form = _dbRepository.GetFeedbackForm(talkId.Value);
+
+            if (form == null)
+                return NotFound();
+
+            return Ok(form);
         }
     }
 }

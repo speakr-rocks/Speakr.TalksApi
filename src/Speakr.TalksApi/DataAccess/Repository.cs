@@ -52,9 +52,16 @@ namespace Speakr.TalksApi.DataAccess
             return _dapper.Query<TalkDTO>(query, new { talkId }).FirstOrDefault();
         }
 
-        public FeedbackForm GetFeedbackForm(string easyAccessKey)
+        public TalkDTO GetTalkByEasyAccessKey(string easyAccessKey)
         {
-            throw new NotImplementedException();
+            var query = @"SELECT * FROM `talks` WHERE `TalkEasyAccessKey` = @easyAccessKey";
+            return _dapper.Query<TalkDTO>(query, new { easyAccessKey }).FirstOrDefault();
+        }
+
+        public FeedbackForm GetFeedbackForm(int talkId)
+        {
+            var query = @"SELECT * FROM `feedbacks` WHERE `TalkID` = @talkId";
+            return _dapper.Query<FeedbackForm>(query, new { talkId }).FirstOrDefault();
         }
     }
 }

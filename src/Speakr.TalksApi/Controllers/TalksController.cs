@@ -4,7 +4,6 @@ using Speakr.TalksApi.DataAccess.Templates;
 using Speakr.TalksApi.Models.Talks;
 using System;
 using System.Threading.Tasks;
-using System.Web.Http;
 
 namespace Speakr.TalksApi.Controllers
 {

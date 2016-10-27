@@ -42,7 +42,7 @@ namespace Speakr.TalksApi.Tests.Areas.Talks
         }
 
         [Test]
-        public async Task CreatesAQuestionnaireIdRecord()
+        public async Task CreatesAQuestionnaireRecordAndReturnsQuestionnaireId()
         {
             var db = A.Fake<IDapper>();
 
@@ -71,7 +71,7 @@ namespace Speakr.TalksApi.Tests.Areas.Talks
         }
 
         [Test]
-        public async Task CreatesATalkWithCorrectQuestionnaireId()
+        public async Task CreatesATalkRecordWithCorrectQuestionnaireId()
         {
             var db = A.Fake<IDapper>();
 
