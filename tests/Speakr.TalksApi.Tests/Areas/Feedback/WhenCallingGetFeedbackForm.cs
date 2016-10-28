@@ -6,8 +6,8 @@ using Speakr.TalksApi.DataAccess;
 using Speakr.TalksApi.DataAccess.DbAccess;
 using Speakr.TalksApi.Models.FeedbackForm;
 using Speakr.TalksApi.Models.Talks;
+using Speakr.TalksApi.Tests.Helpers;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Speakr.TalksApi.Tests.Areas.Feedback
@@ -15,108 +15,106 @@ namespace Speakr.TalksApi.Tests.Areas.Feedback
     [TestFixture]
     public class WhenCallingGetFeedbackForms
     {
-        private static int _talkId = 9999999;
-        private static string _easyAccessKey = "12345";
-        private static TalkDTO _talkDTO;
-        private static FeedbackForm _feedbackForm = FeedbackFormStub.GetTalkById(_easyAccessKey);
-
-        private IDapper _dapper;
+        private IDapper _db;
         private IRepository _dbRepository;
-        private FeedbackFormsController _feedbackFormController;
+        private FeedbackFormsController _feedbackFormsController;
+
+        private TalkEntity _expectedTalkDTO;
+        private FeedbackForm _expectedFeedbackForm;
+        private string _expectedQuestionnaire;
+        private int _expectedTalkId = 1111;
+        private string _expectedEasyAccessKey = "ThisKeyExist";
 
         [SetUp]
-        public void SetupTests()
+        public void Setup()
         {
-            _dapper = A.Fake<IDapper>();
-            _dbRepository = new Repository(_dapper);
-            _feedbackFormController = new FeedbackFormsController(_dbRepository);
+            _db = A.Fake<IDapper>();
+            _dbRepository = new Repository(_db);
+            _feedbackFormsController = new FeedbackFormsController(_dbRepository);
 
-            _talkDTO = new TalkDTO
-            {
-                TalkID = _talkId,
-                TalkEasyAccessKey = "Clever_Einstein",
-                TalkName = "Talk 101",
-            };
+            _expectedFeedbackForm = FeedbackFormStub.GetTalkById(_expectedTalkId, _expectedEasyAccessKey);
+            _expectedTalkDTO = TalkEntityStub.GetTalk(_expectedTalkId, _expectedEasyAccessKey);
+            _expectedQuestionnaire = FeedbackFormStub.GetQuestionnaireAsJson();
         }
 
         [Test]
-        public async Task FeedbackFormsReturns200()
+        public async Task ReturnsCorrect200WhenFormExists()
         {
-            A.CallTo(() =>
-                _dapper.Query<TalkDTO>(
+            A.CallTo(() => _db.Query<TalkEntity>(
                     A<string>.That.Contains("SELECT * FROM `talks`"),
-                    A<object>.Ignored)
-                ).Returns(new List<TalkDTO> { _talkDTO });
+                    A<object>.Ignored))
+                .Returns(new List<TalkEntity>() { _expectedTalkDTO });
 
-            A.CallTo(() =>
-                _dapper.Query<FeedbackForm>(
-                    A<string>.That.Contains("SELECT * FROM `questionnaires`"),
-                    A<object>.Ignored)
-                ).Returns(new List<FeedbackForm> { _feedbackForm });
+            A.CallTo(() => _db.Query<string>(
+                    A<string>.That.Contains("SELECT `Questionnaire` FROM `questionnaires`"),
+                    A<object>.Ignored))
+                .Returns(new List<string>() { _expectedQuestionnaire });
 
-            var result = await _feedbackFormController.GetFeedbackFormsAsync(_easyAccessKey);
-            var response = (OkObjectResult)result;
+            var action = await _feedbackFormsController.GetFeedbackFormForTalk("ThisKeyExist");
+            var result = (OkObjectResult)action;
 
-            Assert.That(result, Is.TypeOf<OkObjectResult>());
-            Assert.That(response.StatusCode, Is.EqualTo(200));
+            Assert.That(result.StatusCode, Is.EqualTo(200));
+            Assert.That(result.Value, Is.TypeOf<FeedbackForm>());
         }
 
         [Test]
-        public async Task FeedbackFormsReturnsForm()
+        public async Task Returns404WhenTalkDoesNotExist()
         {
-            A.CallTo(() =>
-                _dapper.Query<TalkDTO>(
+            A.CallTo(() => _db.Query<TalkEntity>(
                     A<string>.That.Contains("SELECT * FROM `talks`"),
-                    A<object>.Ignored)
-                ).Returns(new List<TalkDTO> { _talkDTO });
+                    A<object>.Ignored))
+                .Returns(new List<TalkEntity>());
 
-            A.CallTo(() =>
-                _dapper.Query<FeedbackForm>(
-                    A<string>.That.Contains("SELECT"),
-                    A<object>.Ignored)
-                ).Returns(new List<FeedbackForm> { _feedbackForm });
+            var action = await _feedbackFormsController.GetFeedbackFormForTalk("KeyDoesNotExist");
+            var result = (NotFoundObjectResult)action;
 
-            var result = await _feedbackFormController.GetFeedbackFormsAsync("12345");
-            var response = (OkObjectResult)result;
-            var model = (FeedbackForm)response.Value;
-
-            Assert.That(response.Value, Is.TypeOf<FeedbackForm>());
-            Assert.That(model.TalkId, Is.EqualTo("12345"));
-            Assert.That(model.Questionnaire.First().QuestionText, Is.EqualTo("How much did you enjoy the talk?"));
+            Assert.That(result.StatusCode, Is.EqualTo(404));
+            Assert.That(result.Value, Contains.Substring("KeyDoesNotExist"));
         }
 
         [Test]
-        public async Task FeedbackFormsReturns404()
+        public async Task Returns404WhenFormDoesNotExist()
         {
-            var expectedForm = FeedbackFormStub.GetTalkById("12345");
-
-            A.CallTo(() =>
-                _dapper.Query<FeedbackForm>(
-                    A<string>.That.Contains("SELECT"),
-                    A<object>.Ignored)
-                ).Returns(new List<FeedbackForm> { expectedForm });
-
-            var result = await _feedbackFormController.GetFeedbackFormsAsync("abcde");
-            var response = (NotFoundResult)result;
-
-            Assert.That(result, Is.TypeOf<NotFoundResult>());
-            Assert.That(response.StatusCode, Is.EqualTo(404));
-        }
-
-        [Test]
-        public async Task IfTalkNotFoundReturn404()
-        {
-            A.CallTo(() =>
-                _dapper.Query<TalkDTO>(
+            A.CallTo(() => _db.Query<TalkEntity>(
                     A<string>.That.Contains("SELECT * FROM `talks`"),
-                    A<object>.Ignored)
-                ).Returns(new List<TalkDTO>());
+                    A<object>.Ignored))
+                .Returns(new List<TalkEntity>() { _expectedTalkDTO });
 
-            var result = await _feedbackFormController.GetFeedbackFormsAsync("talk not found");
-            var response = (NotFoundResult)result;
+            A.CallTo(() => _db.Query<string>(
+                    A<string>.That.Contains("SELECT `Questionnaire` FROM `questionnaires`"),
+                    A<object>.Ignored))
+                .Returns(new List<string>() { "" });
 
-            Assert.That(result, Is.TypeOf<NotFoundResult>());
-            Assert.That(response.StatusCode, Is.EqualTo(404));
+            var action = await _feedbackFormsController.GetFeedbackFormForTalk("FormDoesNotExist");
+            var result = (NotFoundObjectResult)action;
+
+            Assert.That(result.StatusCode, Is.EqualTo(404));
+            Assert.That(result.Value, Contains.Substring($"feedback form with talk id key: {_expectedTalkId}"));
+        }
+
+        [Test]
+        public async Task ReturnsCorrectlyMappedForm()
+        {
+            A.CallTo(() => _db.Query<TalkEntity>(
+                    A<string>.That.Contains("SELECT * FROM `talks`"),
+                    A<object>.Ignored))
+                .Returns(new List<TalkEntity>() { _expectedTalkDTO });
+
+            A.CallTo(() => _db.Query<string>(
+                    A<string>.That.Contains("SELECT `Questionnaire` FROM `questionnaires`"),
+                    A<object>.Ignored))
+                .Returns(new List<string>() { _expectedQuestionnaire });
+
+            var action = await _feedbackFormsController.GetFeedbackFormForTalk("ThisKeyExistForm");
+            var result = (OkObjectResult)action;
+            var feedbackForm = (FeedbackForm)result.Value;
+
+            Assert.That(feedbackForm.TalkId, Is.EqualTo(_expectedTalkId));
+            Assert.That(feedbackForm.EasyAccessKey, Is.EqualTo(_expectedEasyAccessKey));
+            Assert.That(feedbackForm.TalkName, Is.EqualTo("TalkName"));
+            Assert.That(feedbackForm.SpeakerName, Is.EqualTo("SpeakerName"));
+            Assert.That(feedbackForm.Questionnaire.Count, Is.EqualTo(6));
+            Assert.That(feedbackForm.Description, Is.EqualTo("Description"));
         }
     }
 }

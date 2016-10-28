@@ -4,7 +4,6 @@ using Speakr.TalksApi.Models.FeedbackForm;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Speakr.TalksApi.Models.Talks;
-using System;
 
 namespace Speakr.TalksApi.DataAccess
 {
@@ -31,37 +30,40 @@ namespace Speakr.TalksApi.DataAccess
             return _dapper.Query<int>(query, new {serializedQuestionnaire}).FirstOrDefault();
         }
 
-        public int InsertTalk(TalkDTO talkDTO)
+        public int InsertTalk(TalkEntity talkDTO)
         {
             var query = @"
                 INSERT INTO `Talks` 
-                (TalkEasyAccessKey,TalkName,Topic,
+                (EasyAccessKey,Name,Topic,
                 Description,SpeakerName,TalkCreationTime,
                 TalkStartTime,QuestionnaireId)
                 VALUES 
-                (@TalkEasyAccessKey,@TalkName,@TalkTopic,
+                (@EasyAccessKey,@Name,@Topic,
                 @Description,@SpeakerName,@TalkCreationTime,
                 @TalkStartTime,@QuestionnaireId);
                 SELECT LAST_INSERT_ID()";
             return _dapper.Query<int>(query, talkDTO).FirstOrDefault();
         }
 
-        public TalkDTO GetTalkById(int talkId)
+        public TalkEntity GetTalkById(int talkId)
         {
-            var query = @"SELECT * FROM `talks` WHERE `TalkID` = @talkId";
-            return _dapper.Query<TalkDTO>(query, new {talkId}).FirstOrDefault();
+            var query = @"SELECT * FROM `talks` WHERE `Id` = @talkId";
+            return _dapper.Query<TalkEntity>(query, new {talkId}).FirstOrDefault();
         }
 
-        public TalkDTO GetTalkByEasyAccessKey(string easyAccessKey)
+        public TalkEntity GetTalkByEasyAccessKey(string easyAccessKey)
         {
-            var query = @"SELECT * FROM `talks` WHERE `TalkEasyAccessKey` = @easyAccessKey";
-            return _dapper.Query<TalkDTO>(query, new {easyAccessKey}).FirstOrDefault();
+            var query = @"SELECT * FROM `talks` WHERE `EasyAccessKey` = @easyAccessKey";
+            return _dapper.Query<TalkEntity>(query, new {easyAccessKey}).FirstOrDefault();
         }
 
-        public FeedbackForm GetFeedbackForm(int questionnaireId)
+        public List<Question> GetQuestionnaire(int questionnaireId)
         {
-            var query = @"SELECT `Questionnaire` FROM `questionnaires` WHERE `QuestionnaireId` = @questionnaireId";
-            return _dapper.Query<FeedbackForm>(query, new { questionnaireId }).FirstOrDefault();
+            var query = @"SELECT `Questionnaire` 
+                          FROM `questionnaires` 
+                          WHERE `Id` = @questionnaireId";
+            var questionnaire = _dapper.Query<string>(query, new { questionnaireId }).FirstOrDefault();
+            return JsonConvert.DeserializeObject<List<Question>>(questionnaire);
         }
     }
 }

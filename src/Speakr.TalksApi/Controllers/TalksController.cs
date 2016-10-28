@@ -19,7 +19,7 @@ namespace Speakr.TalksApi.Controllers
 
         [HttpGet]
         [Route("")]
-        [Produces(typeof(TalkDTO))]
+        [Produces(typeof(TalkEntity))]
         public async Task<IActionResult> GetTalkById([FromQuery] int talkId)
         {
             var talkDTO = _dbRepository.GetTalkById(talkId);
@@ -39,16 +39,16 @@ namespace Speakr.TalksApi.Controllers
             return CreatedAtAction("GetTalkById", "?talkId=", talkId);
         }
 
-        private TalkDTO CreateNewTalk(TalkCreationRequest request)
+        private TalkEntity CreateNewTalk(TalkCreationRequest request)
         {
             var defaultQuestionnaire = DefaultQuestionnaire.GetDefaultQuestionnaire();
             var questionnaireId = _dbRepository.InsertQuestionnaire(defaultQuestionnaire);
 
-            var talkDTO = new TalkDTO
+            var talkDTO = new TalkEntity
             {
-                TalkName = request.TalkName,
-                TalkEasyAccessKey = request.TalkEasyAccessKey,
-                TalkTopic = request.TalkTopic,
+                Name = request.Name,
+                EasyAccessKey = request.EasyAccessKey,
+                Topic = request.Topic,
                 Description = request.Description,
                 SpeakerName = request.SpeakerName,
                 TalkCreationTime = DateTime.Now,

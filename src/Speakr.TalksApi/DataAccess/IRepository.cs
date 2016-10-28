@@ -8,9 +8,9 @@ namespace Speakr.TalksApi.DataAccess
     {
         string VerifyConnection();
         int InsertQuestionnaire(IList<Question> defaultQuestionnaire);
-        int InsertTalk(TalkDTO talkDTO);
-        TalkDTO GetTalkById(int talkId);
-        FeedbackForm GetFeedbackForm(int talkId);
-        TalkDTO GetTalkByEasyAccessKey(string easyAccessKey);
+        int InsertTalk(TalkEntity talkDTO);
+        TalkEntity GetTalkById(int talkId);
+        TalkEntity GetTalkByEasyAccessKey(string easyAccessKey);
+        List<Question> GetQuestionnaire(int talkId);
     }
 }

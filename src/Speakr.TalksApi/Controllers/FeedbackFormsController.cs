@@ -3,13 +3,12 @@ using Speakr.TalksApi.DataAccess;
 using Speakr.TalksApi.Models.FeedbackForm;
 using System.Threading.Tasks;
 
-
 namespace Speakr.TalksApi.Controllers
 {
     [Route("talks")]
     public class FeedbackFormsController : Controller
     {
-        private IRepository _dbRepository;
+        private readonly IRepository _dbRepository;
 
         public FeedbackFormsController(IRepository repository)
         {
@@ -17,28 +16,30 @@ namespace Speakr.TalksApi.Controllers
         }
 
         [HttpGet]
-        [Route("{easyAccessKey}/feedbackform")]
         [Produces(typeof(FeedbackForm))]
-        public async Task<IActionResult> GetFeedbackFormsAsync(string easyAccessKey)
+        [Route("{easyAccessKey}/FeedbackForm")]
+        public async Task<IActionResult> GetFeedbackFormForTalk(string easyAccessKey)
         {
-            var talkForm = _dbRepository.GetTalkByEasyAccessKey(easyAccessKey);
+            var talk = _dbRepository.GetTalkByEasyAccessKey(easyAccessKey);
 
-            if (talkForm == null)
-                return NotFound();
+            if (talk == null)
+                return NotFound($"Could not find talk with easy access key: {easyAccessKey}");
 
-            //Pass the above talk into a mapper.
-            //Mapper should create feedback form and populate initial fields
-            //Below query should return a List<Questions> not a feedback form
-            //That list of questions gets assigned to feedback form and returned to controller
+            var questionnaire = _dbRepository.GetQuestionnaire(talk.Id);
 
-            //var questionnaireId = talkForm.QuestionnaireId;
-            //var form = _dbRepository.GetFeedbackForm(questionnaireId);
+            if(questionnaire == null)
+                return NotFound($"Could not find feedback form with talk id key: {talk.Id}");
 
-            //if (form == null)
-            //    return NotFound();
+            var feedbackForm = new FeedbackForm();
 
-            //return Ok(form);
-            return Ok(new FeedbackForm());
+            feedbackForm.TalkId = talk.Id;
+            feedbackForm.TalkName = talk.Name;
+            feedbackForm.SpeakerName = talk.SpeakerName;
+            feedbackForm.EasyAccessKey = talk.EasyAccessKey;
+            feedbackForm.Questionnaire = questionnaire;
+            feedbackForm.Description = talk.Description;
+
+            return Ok(feedbackForm);
         }
     }
 }

@@ -5,6 +5,7 @@ using Speakr.TalksApi.Controllers;
 using Speakr.TalksApi.DataAccess;
 using Speakr.TalksApi.DataAccess.DbAccess;
 using Speakr.TalksApi.Models.Talks;
+using Speakr.TalksApi.Tests.Helpers;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -13,53 +14,52 @@ namespace Speakr.TalksApi.Tests.Areas.Talks
     [TestFixture]
     public class WhenCallingGetTalkById
     {
+        private int _talkId = 12345551;
+        private string _easyAccessKey = "clever_einstein";
+        private TalkEntity _expectedTalk;
+
+        private IDapper _db;
+        private IRepository _dbRepository;
+        private TalksController _talksController;
+
+        [SetUp]
+        public void Setup()
+        {
+            _db = A.Fake<IDapper>();
+            _dbRepository = new Repository(_db);
+            _talksController = new TalksController(_dbRepository);
+
+            _expectedTalk = TalkEntityStub.GetTalk(_talkId, _easyAccessKey);
+        }
+
         [Test]
         public async Task ThenItReturns200IfSuccessful()
         {
-            var talkId = 12345551;
-
-            var expectedDto = new TalkDTO
-            {
-                TalkID = talkId,
-                TalkEasyAccessKey = "Clever_Einstein",
-                TalkName = "Talk 101",
-            };
-
-            var db = A.Fake<IDapper>();
-
             A.CallTo(() =>
-                db.Query<TalkDTO>(
+                _db.Query<TalkEntity>(
                     A<string>.That.Contains("SELECT"),
                     A<object>.Ignored)
-                ).Returns(new List<TalkDTO> { expectedDto });
+                ).Returns(new List<TalkEntity> { _expectedTalk });
 
-            var dbRepository = new Repository(db);
-            var talksController = new TalksController(dbRepository);
-            var result = await talksController.GetTalkById(talkId);
+            var result = await _talksController.GetTalkById(_talkId);
             var response = (OkObjectResult)result;
-            var model = (TalkDTO)response.Value;
+            var model = (TalkEntity)response.Value;
 
             Assert.That(result, Is.TypeOf<OkObjectResult>());
             Assert.That(response.StatusCode, Is.EqualTo(200));
-            Assert.That(model.TalkID, Is.EqualTo(talkId));
+            Assert.That(model.Id, Is.EqualTo(_talkId));
         }
 
         [Test]
         public async Task ThenItReturns404IfNotFound()
         {
-            var talkId = 12345551;
-
-            var db = A.Fake<IDapper>();
-
             A.CallTo(() =>
-                db.Query<TalkDTO>(
+                _db.Query<TalkEntity>(
                     A<string>.That.Contains("SELECT"),
                     A<object>.Ignored)
-                ).Returns(new List<TalkDTO>());
+                ).Returns(new List<TalkEntity>());
 
-            var dbRepository = new Repository(db);
-            var talksController = new TalksController(dbRepository);
-            var result = await talksController.GetTalkById(talkId);
+            var result = await _talksController.GetTalkById(_talkId);
             var response = (NotFoundResult)result;
 
             Assert.That(response, Is.TypeOf<NotFoundResult>());
