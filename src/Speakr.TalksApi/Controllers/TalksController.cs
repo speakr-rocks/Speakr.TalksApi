@@ -3,7 +3,6 @@ using Speakr.TalksApi.DataAccess;
 using Speakr.TalksApi.DataAccess.Templates;
 using Speakr.TalksApi.Models.Talks;
 using System;
-using System.ComponentModel;
 using System.Threading.Tasks;
 
 namespace Speakr.TalksApi.Controllers
@@ -21,7 +20,8 @@ namespace Speakr.TalksApi.Controllers
         [HttpGet]
         [Route("")]
         [Produces(typeof(TalkEntity))]
-        [SwaggerDescription("description here")]
+        [SwaggerSummary("Get Talk Information by Id (int)")]
+        [SwaggerNotes("Url: /talks?talkId={talkId}")]
         public async Task<IActionResult> GetTalkById([FromQuery] int talkId)
         {
             var talkDTO = _dbRepository.GetTalkById(talkId);
@@ -34,6 +34,8 @@ namespace Speakr.TalksApi.Controllers
 
         [HttpPost]
         [Route("")]
+        [SwaggerSummary("Create a new Talk, Generates default questionnaire")]
+        [SwaggerNotes("Url: /talks/")]
         public async Task<IActionResult> PostTalk([FromBody]TalkCreationRequest request)
         {
             var talkDTO = CreateNewTalk(request);

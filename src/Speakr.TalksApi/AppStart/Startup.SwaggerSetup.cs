@@ -21,31 +21,48 @@ namespace Speakr.TalksApi
                     Description = "API for the Speakr.App",
                     TermsOfService = "None"
                 });
+                options.OperationFilter<ApplySwaggerDescriptionFilterAttributes>();
             });
         }
     }
 
     [AttributeUsage(AttributeTargets.Method)]
-    public class SwaggerDescriptionAttribute : Attribute
+    public class SwaggerNotesAttribute : Attribute
     {
         public string Description { get; private set; }
 
-        public SwaggerDescriptionAttribute(string description)
+        public SwaggerNotesAttribute(string description)
         {
             this.Description = description;
         }
     }
 
-    public class ApplySwaggerDescriptionAttributeFilterAttributes : IOperationFilter
+    [AttributeUsage(AttributeTargets.Method)]
+    public class SwaggerSummaryAttribute : Attribute
+    {
+        public string Summary { get; private set; }
+
+        public SwaggerSummaryAttribute(string summary)
+        {
+            this.Summary = summary;
+        }
+    }
+
+    public class ApplySwaggerDescriptionFilterAttributes : IOperationFilter
     {
         public void Apply(Operation operation, OperationFilterContext context)
         {
             var attributes = context.ApiDescription.GetActionAttributes();
             foreach (var attr in attributes)
             {
-                if (attr is SwaggerDescriptionAttribute)
+                if (attr is SwaggerNotesAttribute)
                 {
-                    operation.Description = ((SwaggerDescriptionAttribute)attr).Description;
+                    operation.Description = ((SwaggerNotesAttribute)attr).Description;
+                }
+
+                if (attr is SwaggerSummaryAttribute)
+                {
+                    operation.Summary = ((SwaggerSummaryAttribute)attr).Summary;
                 }
             }
         }
