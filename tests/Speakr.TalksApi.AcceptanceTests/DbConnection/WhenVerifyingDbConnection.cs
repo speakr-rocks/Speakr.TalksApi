@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using NUnit.Framework;
-using Speakr.TalksApi.DataAccess;
+﻿using NUnit.Framework;
 
 namespace Speakr.TalksApi.AcceptanceTests.DbConnection
 {

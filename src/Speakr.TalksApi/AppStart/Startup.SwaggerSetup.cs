@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.Swagger.Model;
 using Swashbuckle.SwaggerGen.Generator;
 using System;
@@ -53,6 +52,7 @@ namespace Speakr.TalksApi
         public void Apply(Operation operation, OperationFilterContext context)
         {
             var attributes = context.ApiDescription.GetActionAttributes();
+
             foreach (var attr in attributes)
             {
                 if (attr is SwaggerNotesAttribute)
