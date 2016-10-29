@@ -18,6 +18,8 @@ namespace Speakr.TalksApi.Controllers
         [HttpGet]
         [Produces(typeof(FeedbackForm))]
         [Route("{easyAccessKey}/FeedbackForm")]
+        [SwaggerSummary("Get FeedbackForm by easy access key (string)")]
+        [SwaggerNotes("Url: /talks/{easyAccessKey}/FeedbackForm")]
         public async Task<IActionResult> GetFeedbackFormForTalk(string easyAccessKey)
         {
             var talk = _dbRepository.GetTalkByEasyAccessKey(easyAccessKey);
