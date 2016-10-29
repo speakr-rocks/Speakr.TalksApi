@@ -39,5 +39,20 @@ namespace Speakr.TalksApi.DataAccess.DbAccess
                 throw;
             }
         }
+
+        public IEnumerable<T> Query<T>(string sql, dynamic parameters)
+        {
+            try
+            {
+                using (var conn = CreateOpenDbConnection())
+                {
+                    return conn.Query<T>(sql, parameters as object);
+                }
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+        }
     }
 }
