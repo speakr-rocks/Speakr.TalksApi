@@ -2,6 +2,8 @@
 using Speakr.TalksApi.DataAccess;
 using Speakr.TalksApi.Models.FeedbackForm;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 
 namespace Speakr.TalksApi.Controllers
 {
@@ -18,6 +20,7 @@ namespace Speakr.TalksApi.Controllers
         [HttpGet]
         [Produces(typeof(FeedbackForm))]
         [Route("{easyAccessKey}/FeedbackForm")]
+        [Description("This is a description")]
         public async Task<IActionResult> GetFeedbackFormForTalk(string easyAccessKey)
         {
             var talk = _dbRepository.GetTalkByEasyAccessKey(easyAccessKey);

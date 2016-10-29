@@ -15,7 +15,10 @@
     "MySql.Data": "7.0.5-IR21",
     "MySql.Data.EntityFrameworkCore": "7.0.5-IR21",
     "Microsoft.EntityFrameworkCore": "1.0.1",
-    "System.Linq": "4.1.0"
+    "System.Linq": "4.1.0",
+    "Swashbuckle.Swagger": "6.0.0-beta902",
+    "Swashbuckle.SwaggerGen": "6.0.0-beta902",
+    "Swashbuckle.SwaggerUi": "6.0.0-beta902"
   },
 
   "tools": {
