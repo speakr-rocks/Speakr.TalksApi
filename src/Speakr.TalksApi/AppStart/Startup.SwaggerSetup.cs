@@ -40,16 +40,14 @@ namespace Speakr.TalksApi
     {
         public void Apply(Operation operation, OperationFilterContext context)
         {
-            var attr = apiDescription.GetControllerAndActionAttributes<SwaggerImplementationNotesAttribute>().FirstOrDefault();
-            if (attr != null)
+            var attributes = context.ApiDescription.GetActionAttributes();
+            foreach (var attr in attributes)
             {
-                operation.description = attr.ImplementationNotes;
+                if (attr is SwaggerDescriptionAttribute)
+                {
+                    operation.Description = ((SwaggerDescriptionAttribute)attr).Description;
+                }
             }
-        }
-
-        public void Apply(Operation operation, SchemaRegistry schemaRegistry, ApiDescription apiDescription)
-        {
-            
         }
     }
 }
