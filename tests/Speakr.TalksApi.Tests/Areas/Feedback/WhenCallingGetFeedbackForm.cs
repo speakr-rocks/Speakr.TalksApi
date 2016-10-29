@@ -46,7 +46,7 @@ namespace Speakr.TalksApi.Tests.Areas.Feedback
                 .Returns(new List<TalkEntity>() { _expectedTalkDTO });
 
             A.CallTo(() => _db.Query<string>(
-                    A<string>.That.Contains("SELECT `Questionnaire` FROM `questionnaires`"),
+                    A<string>.That.Contains("SELECT `Questionnaire`"),
                     A<object>.Ignored))
                 .Returns(new List<string>() { _expectedQuestionnaire });
 
@@ -81,7 +81,7 @@ namespace Speakr.TalksApi.Tests.Areas.Feedback
                 .Returns(new List<TalkEntity>() { _expectedTalkDTO });
 
             A.CallTo(() => _db.Query<string>(
-                    A<string>.That.Contains("SELECT `Questionnaire` FROM `questionnaires`"),
+                    A<string>.That.Contains("SELECT `Questionnaire`"),
                     A<object>.Ignored))
                 .Returns(new List<string>() { "" });
 
@@ -101,7 +101,7 @@ namespace Speakr.TalksApi.Tests.Areas.Feedback
                 .Returns(new List<TalkEntity>() { _expectedTalkDTO });
 
             A.CallTo(() => _db.Query<string>(
-                    A<string>.That.Contains("SELECT `Questionnaire` FROM `questionnaires`"),
+                    A<string>.That.Contains("SELECT `Questionnaire`"),
                     A<object>.Ignored))
                 .Returns(new List<string>() { _expectedQuestionnaire });
 

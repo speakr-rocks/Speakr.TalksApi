@@ -63,6 +63,10 @@ namespace Speakr.TalksApi.DataAccess
                           FROM `questionnaires` 
                           WHERE `Id` = @questionnaireId";
             var questionnaire = _dapper.Query<string>(query, new { questionnaireId }).FirstOrDefault();
+
+            if (questionnaire == null)
+                return null;
+
             return JsonConvert.DeserializeObject<List<Question>>(questionnaire);
         }
     }
