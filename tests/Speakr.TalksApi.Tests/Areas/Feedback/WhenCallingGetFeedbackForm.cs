@@ -41,7 +41,7 @@ namespace Speakr.TalksApi.Tests.Areas.Feedback
         public async Task ReturnsCorrect200WhenFormExists()
         {
             A.CallTo(() => _db.Query<TalkEntity>(
-                    A<string>.That.Contains("SELECT * FROM `talks`"),
+                    A<string>.That.Contains("SELECT * FROM `Talks`"),
                     A<object>.Ignored))
                 .Returns(new List<TalkEntity>() { _expectedTalkDTO });
 
@@ -61,7 +61,7 @@ namespace Speakr.TalksApi.Tests.Areas.Feedback
         public async Task Returns404WhenTalkDoesNotExist()
         {
             A.CallTo(() => _db.Query<TalkEntity>(
-                    A<string>.That.Contains("SELECT * FROM `talks`"),
+                    A<string>.That.Contains("SELECT * FROM `Talks`"),
                     A<object>.Ignored))
                 .Returns(new List<TalkEntity>());
 
@@ -76,7 +76,7 @@ namespace Speakr.TalksApi.Tests.Areas.Feedback
         public async Task Returns404WhenFormDoesNotExist()
         {
             A.CallTo(() => _db.Query<TalkEntity>(
-                    A<string>.That.Contains("SELECT * FROM `talks`"),
+                    A<string>.That.Contains("SELECT * FROM `Talks`"),
                     A<object>.Ignored))
                 .Returns(new List<TalkEntity>() { _expectedTalkDTO });
 
@@ -96,7 +96,7 @@ namespace Speakr.TalksApi.Tests.Areas.Feedback
         public async Task ReturnsCorrectlyMappedForm()
         {
             A.CallTo(() => _db.Query<TalkEntity>(
-                    A<string>.That.Contains("SELECT * FROM `talks`"),
+                    A<string>.That.Contains("SELECT * FROM `Talks`"),
                     A<object>.Ignored))
                 .Returns(new List<TalkEntity>() { _expectedTalkDTO });
 
