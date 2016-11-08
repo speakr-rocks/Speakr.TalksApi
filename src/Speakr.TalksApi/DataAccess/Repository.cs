@@ -47,20 +47,20 @@ namespace Speakr.TalksApi.DataAccess
 
         public TalkEntity GetTalkById(int talkId)
         {
-            var query = @"SELECT * FROM `talks` WHERE `Id` = @talkId";
+            var query = @"SELECT * FROM `Talks` WHERE `Id` = @talkId";
             return _dapper.Query<TalkEntity>(query, new {talkId}).FirstOrDefault();
         }
 
         public TalkEntity GetTalkByEasyAccessKey(string easyAccessKey)
         {
-            var query = @"SELECT * FROM `talks` WHERE `EasyAccessKey` = @easyAccessKey";
+            var query = @"SELECT * FROM `Talks` WHERE `EasyAccessKey` = @easyAccessKey";
             return _dapper.Query<TalkEntity>(query, new {easyAccessKey}).FirstOrDefault();
         }
 
         public List<Question> GetQuestionnaire(int questionnaireId)
         {
             var query = @"SELECT `Questionnaire` 
-                          FROM `questionnaires` 
+                          FROM `Questionnaires` 
                           WHERE `Id` = @questionnaireId";
             var questionnaire = _dapper.Query<string>(query, new { questionnaireId }).FirstOrDefault();
 
