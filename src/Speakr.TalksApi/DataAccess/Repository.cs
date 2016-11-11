@@ -3,7 +3,7 @@ using System.Linq;
 using Speakr.TalksApi.Models.FeedbackForm;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using Speakr.TalksApi.Models.Talks;
+using Speakr.TalksApi.DataAccess.DataObjects;
 
 namespace Speakr.TalksApi.DataAccess
 {
@@ -43,6 +43,17 @@ namespace Speakr.TalksApi.DataAccess
                 @TalkStartTime,@QuestionnaireId);
                 SELECT LAST_INSERT_ID()";
             return _dapper.Query<int>(query, talkDTO).FirstOrDefault();
+        }
+
+        public int InsertReview(ReviewEntity feedbackEntity)
+        {
+            var query = @"
+                INSERT INTO `Feedback` 
+                (TalkId,Answer)
+                VALUES 
+                (@TalkId,@Answers);
+                SELECT LAST_INSERT_ID()";
+            return _dapper.Query<int>(query, feedbackEntity).FirstOrDefault();
         }
 
         public TalkEntity GetTalkById(int talkId)

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Speakr.TalksApi.Models.Talks
+namespace Speakr.TalksApi.DataAccess.DataObjects
 {
     public class TalkEntity
     {
