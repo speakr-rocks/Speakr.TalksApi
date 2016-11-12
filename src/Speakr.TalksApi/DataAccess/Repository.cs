@@ -51,13 +51,13 @@ namespace Speakr.TalksApi.DataAccess
             var deserializedAnswers = JsonConvert.SerializeObject(feedbackEntity.Answers);
 
             var query = @"
-                INSERT INTO `Feedback` 
-                (TalkId,Answer)
+                INSERT INTO `Reviews` 
+                (TalkId,Answer,SubmissionTime)
                 VALUES 
-                (@TalkId,@Answers);
+                (@TalkId,@Answers,@SubmissionTime);
                 SELECT LAST_INSERT_ID()";
 
-            return _dapper.Query<int>(query, new { TalkId = feedbackEntity.TalkId, Answers = deserializedAnswers }).FirstOrDefault();
+            return _dapper.Query<int>(query, new { TalkId = feedbackEntity.TalkId, Answers = deserializedAnswers, SubmissionTime = feedbackEntity.SubmissionTime }).FirstOrDefault();
         }
 
         public TalkEntity GetTalkById(int talkId)

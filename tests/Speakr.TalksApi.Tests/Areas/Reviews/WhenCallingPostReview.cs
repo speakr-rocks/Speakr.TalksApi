@@ -49,7 +49,7 @@ namespace Speakr.TalksApi.Tests.Areas.Feedback
 
             A.CallTo(() =>
                 _db.Query<int>(
-                    A<string>.That.Contains("INSERT INTO `Feedback`"),
+                    A<string>.That.Contains("INSERT INTO `Reviews`"),
                     A<object>.Ignored)
                 ).Returns(new List<int> { _expectedReviewId });
 
@@ -80,7 +80,7 @@ namespace Speakr.TalksApi.Tests.Areas.Feedback
             Assert.That(result, Is.TypeOf<ObjectResult>());
             A.CallTo(() =>
                 _db.Query<int>(
-                    A<string>.That.Contains("INSERT INTO `Feedback`"),
+                    A<string>.That.Contains("INSERT INTO `Reviews`"),
                     A<object>.Ignored)
                 ).MustNotHaveHappened();
         }
