@@ -3,7 +3,8 @@ using System.Linq;
 using Speakr.TalksApi.Models.FeedbackForm;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using Speakr.TalksApi.Models.Talks;
+using Speakr.TalksApi.DataAccess.DataObjects;
+using System;
 
 namespace Speakr.TalksApi.DataAccess
 {
@@ -45,6 +46,20 @@ namespace Speakr.TalksApi.DataAccess
             return _dapper.Query<int>(query, talkDTO).FirstOrDefault();
         }
 
+        public int InsertReview(ReviewEntity feedbackEntity)
+        {
+            var deserializedAnswers = JsonConvert.SerializeObject(feedbackEntity.Answers);
+
+            var query = @"
+                INSERT INTO `Reviews` 
+                (TalkId,Answer,SubmissionTime)
+                VALUES 
+                (@TalkId,@Answers,@SubmissionTime);
+                SELECT LAST_INSERT_ID()";
+
+            return _dapper.Query<int>(query, new { TalkId = feedbackEntity.TalkId, Answers = deserializedAnswers, SubmissionTime = feedbackEntity.SubmissionTime }).FirstOrDefault();
+        }
+
         public TalkEntity GetTalkById(int talkId)
         {
             var query = @"SELECT * FROM `Talks` WHERE `Id` = @talkId";
@@ -68,6 +83,12 @@ namespace Speakr.TalksApi.DataAccess
                 return null;
 
             return JsonConvert.DeserializeObject<List<Question>>(questionnaire);
+        }
+
+        public int GetTalkIdFromEasyAccessKey(string easyAccessKey)
+        {
+            var query = @"SELECT Id FROM `Talks` WHERE `EasyAccessKey` = @easyAccessKey;";
+            return _dapper.Query<int>(query, new { easyAccessKey }).FirstOrDefault();
         }
     }
 }

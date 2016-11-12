@@ -1,4 +1,4 @@
-﻿using Speakr.TalksApi.Models.Talks;
+﻿using Speakr.TalksApi.DataAccess.DataObjects;
 
 namespace Speakr.TalksApi.Tests.Helpers
 {

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using NUnit.Framework;
 using Speakr.TalksApi.Controllers;
 using Speakr.TalksApi.DataAccess;
+using Speakr.TalksApi.DataAccess.DataObjects;
 using Speakr.TalksApi.DataAccess.DbAccess;
 using Speakr.TalksApi.Models.Talks;
 using Speakr.TalksApi.Tests.Helpers;

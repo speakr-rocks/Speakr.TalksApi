@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Speakr.TalksApi.DataAccess;
+using Speakr.TalksApi.DataAccess.DataObjects;
 using Speakr.TalksApi.DataAccess.Templates;
 using Speakr.TalksApi.Models.Talks;
 using System;
