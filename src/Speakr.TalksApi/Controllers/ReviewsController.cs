@@ -34,16 +34,20 @@ namespace Speakr.TalksApi.Controllers
 
         [HttpPost]
         [Route("{easyAccessKey}/Reviews")]
-        [SwaggerSummary("Saves a feedback response linked to the talk key provided")]
+        [SwaggerSummary("Saves a review response linked to the talk key provided")]
         [SwaggerNotes("Url: /talks/{easyAccessKey}/Reviews")]
         public IActionResult PostReviewForTalk(string easyAccessKey, [FromBody]FeedbackResponse _request)
         {
-            int talkId = _request.TalkId;
+            int talkId = _dbRepository.GetTalkIdFromEasyAccessKey(easyAccessKey);
+
+            if (talkId == 0 || talkId != _request.TalkId)
+                return StatusCode(409, "TalkId could not be found");
 
             var reviewEntity = new ReviewEntity
             {
                 TalkId = talkId,
-                Answers = _request.Questionnaire
+                Answers = _request.Questionnaire,
+                SubmissionTime = _request.SubmissionTime
             };
 
             int reviewId = _dbRepository.InsertReview(reviewEntity);

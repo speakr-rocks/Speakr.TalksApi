@@ -43,6 +43,12 @@ namespace Speakr.TalksApi.Tests.Areas.Feedback
         {
             A.CallTo(() =>
                 _db.Query<int>(
+                    A<string>.That.Contains("SELECT Id FROM `Talks`"),
+                    A<object>.Ignored)
+                ).Returns(new List<int> { _talkId });
+
+            A.CallTo(() =>
+                _db.Query<int>(
                     A<string>.That.Contains("INSERT INTO `Feedback`"),
                     A<object>.Ignored)
                 ).Returns(new List<int> { _expectedReviewId });
@@ -62,7 +68,21 @@ namespace Speakr.TalksApi.Tests.Areas.Feedback
         [Test]
         public void Returns409IfTalkDoesNotExist()
         {
+            A.CallTo(() =>
+                _db.Query<int>(
+                    A<string>.That.Contains("SELECT Id FROM `Talks`"),
+                    A<object>.Ignored)
+                ).Returns(new List<int> { 0 });
 
+            var result = _reviewsController.PostReviewForTalk("12345", _request);
+            var response = (ObjectResult)result;
+
+            Assert.That(result, Is.TypeOf<ObjectResult>());
+            A.CallTo(() =>
+                _db.Query<int>(
+                    A<string>.That.Contains("INSERT INTO `Feedback`"),
+                    A<object>.Ignored)
+                ).MustNotHaveHappened();
         }
     }
 }

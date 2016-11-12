@@ -4,6 +4,7 @@ using Speakr.TalksApi.Models.FeedbackForm;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Speakr.TalksApi.DataAccess.DataObjects;
+using System;
 
 namespace Speakr.TalksApi.DataAccess
 {
@@ -47,13 +48,16 @@ namespace Speakr.TalksApi.DataAccess
 
         public int InsertReview(ReviewEntity feedbackEntity)
         {
+            var deserializedAnswers = JsonConvert.SerializeObject(feedbackEntity.Answers);
+
             var query = @"
                 INSERT INTO `Feedback` 
                 (TalkId,Answer)
                 VALUES 
                 (@TalkId,@Answers);
                 SELECT LAST_INSERT_ID()";
-            return _dapper.Query<int>(query, feedbackEntity).FirstOrDefault();
+
+            return _dapper.Query<int>(query, new { TalkId = feedbackEntity.TalkId, Answers = deserializedAnswers }).FirstOrDefault();
         }
 
         public TalkEntity GetTalkById(int talkId)
@@ -79,6 +83,12 @@ namespace Speakr.TalksApi.DataAccess
                 return null;
 
             return JsonConvert.DeserializeObject<List<Question>>(questionnaire);
+        }
+
+        public int GetTalkIdFromEasyAccessKey(string easyAccessKey)
+        {
+            var query = @"SELECT Id FROM `Talks` WHERE `EasyAccessKey` = @easyAccessKey;";
+            return _dapper.Query<int>(query, new { easyAccessKey }).FirstOrDefault();
         }
     }
 }
