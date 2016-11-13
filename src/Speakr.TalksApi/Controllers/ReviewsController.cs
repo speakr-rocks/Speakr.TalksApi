@@ -3,6 +3,7 @@ using Speakr.TalksApi.DataAccess;
 using Speakr.TalksApi.DataAccess.DataObjects;
 using Speakr.TalksApi.Models.FeedbackForm;
 using System;
+using Speakr.TalksApi.Swagger;
 
 namespace Speakr.TalksApi.Controllers
 {
