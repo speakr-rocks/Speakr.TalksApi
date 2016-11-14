@@ -5,6 +5,7 @@ using Speakr.TalksApi.DataAccess.Templates;
 using Speakr.TalksApi.Models.Talks;
 using System;
 using System.Threading.Tasks;
+using Speakr.TalksApi.Swagger;
 
 namespace Speakr.TalksApi.Controllers
 {

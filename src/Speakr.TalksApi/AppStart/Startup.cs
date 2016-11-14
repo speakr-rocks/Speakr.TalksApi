@@ -1,23 +1,38 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Speakr.TalksApi.DataAccess;
+using Speakr.TalksApi.DataAccess.DbAccess;
+using Speakr.TalksApi.Swagger;
+using Swashbuckle.Swagger.Model;
 
-namespace Speakr.TalksApi
+namespace Speakr.TalksApi.AppStart
 {
-    public partial class Startup
+    public class Startup
     {
-        public IConfiguration Configuration { get; set; }
+        public Startup(IHostingEnvironment env) { }
 
-        public Startup(IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            GenerateConfigs(env);
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+
+            app.UseStaticFiles();
+
+            app.UseMvc();
+
+            app.UseSwagger();
+            app.UseSwaggerUi();
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
-            RegisterDependencies(services);
+            var configuration = Configuration.Configure();
 
-            SetupSwagger(services);
+            IoCRegistry.RegisterDependencies(services, configuration);
+            SwaggerBootstrap.SetupSwagger(services);
 
             services.AddMvc();
         }
