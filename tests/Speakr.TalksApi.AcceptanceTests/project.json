@@ -11,7 +11,8 @@
     },
     "NUnit": "3.5.0",
     "dotnet-test-nunit": "3.4.0-beta-3",
-    "Microsoft.AspNetCore.TestHost": "1.1.0"
+    "Microsoft.AspNetCore.TestHost": "1.1.0",
+    "Microsoft.DotNet.InternalAbstractions": "1.0.500-preview2-1-003177"
   },
 
   "testRunner": "nunit",
