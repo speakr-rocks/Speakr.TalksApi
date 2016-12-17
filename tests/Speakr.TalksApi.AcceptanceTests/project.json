@@ -5,25 +5,23 @@
     "Speakr.TalksApi": {
       "target": "project"
     },
+    "Microsoft.NETCore.App": {
+      "version": "1.1.0",
+      "type": "platform"
+    },
     "NUnit": "3.5.0",
-    "Microsoft.AspNetCore.TestHost": "1.0.0",
-    "dotnet-test-nunit": "3.4.0-beta-2"
+    "dotnet-test-nunit": "3.4.0-beta-3",
+    "Microsoft.AspNetCore.TestHost": "1.1.0"
   },
 
   "testRunner": "nunit",
 
   "frameworks": {
-    "netcoreapp1.0": {
+    "netcoreapp1.1": {
       "imports": [
-        "netcoreapp1.0",
+        "netcoreapp1.1",
         "portable-net45+win8"
-      ],
-      "dependencies": {
-        "Microsoft.NETCore.App": {
-          "version": "1.0.0-*",
-          "type": "platform"
-        }
-      }
+      ]
     }
   }
 }
