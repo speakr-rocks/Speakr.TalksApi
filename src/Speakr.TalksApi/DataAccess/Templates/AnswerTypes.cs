@@ -1,4 +1,4 @@
-﻿namespace Speakr.TalksApi.Models.FeedbackForm
+﻿namespace Speakr.TalksApi.DataAccess.Templates
 {
     public enum AnswerTypes
     {
