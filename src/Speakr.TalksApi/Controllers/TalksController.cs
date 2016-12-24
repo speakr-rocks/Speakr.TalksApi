@@ -6,6 +6,7 @@ using Speakr.TalksApi.Models.Talks;
 using System;
 using System.Threading.Tasks;
 using Speakr.TalksApi.Swagger;
+using System.Collections.Generic;
 
 namespace Speakr.TalksApi.Controllers
 {
@@ -21,17 +22,13 @@ namespace Speakr.TalksApi.Controllers
 
         [HttpGet]
         [Route("")]
-        [Produces(typeof(TalkEntity))]
-        [SwaggerSummary("Get Talk Information by Id (int)")]
-        [SwaggerNotes("Url: /talks?talkId={talkId}")]
-        public async Task<IActionResult> GetTalkById([FromQuery] int talkId)
+        [Produces(typeof(IList<TalkEntity>))]
+        [SwaggerSummary("Get All Talks")]
+        [SwaggerNotes("Url: /talks")]
+        public async Task<IActionResult> GetTalks()
         {
-            var talkDTO = _dbRepository.GetTalkById(talkId);
-
-            if(talkDTO == null)
-                return NotFound();
-
-            return Ok(talkDTO);
+            var talkList = _dbRepository.GetAllTalks();
+            return Ok(talkList);
         }
 
         [HttpPost]
@@ -43,6 +40,21 @@ namespace Speakr.TalksApi.Controllers
             var talkDTO = CreateNewTalk(request);
             var talkId = _dbRepository.InsertTalk(talkDTO);
             return CreatedAtAction("GetTalkById", "?talkId=", talkId);
+        }
+
+        [HttpGet]
+        [Route("{talkId}")]
+        [Produces(typeof(TalkEntity))]
+        [SwaggerSummary("Get Talk Information by Id (int)")]
+        [SwaggerNotes("Url: /talks/{talkId}")]
+        public async Task<IActionResult> GetTalkById(int talkId)
+        {
+            var talkDTO = _dbRepository.GetTalkById(talkId);
+
+            if (talkDTO == null)
+                return NotFound();
+
+            return Ok(talkDTO);
         }
 
         private TalkEntity CreateNewTalk(TalkCreationRequest request)

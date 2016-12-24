@@ -7,11 +7,11 @@ using Speakr.TalksApi.Swagger;
 namespace Speakr.TalksApi.Controllers
 {
     [Route("")]
-    public class FeedbackFormsSearchController : Controller
+    public class FeedbackFormController : Controller
     {
         private readonly IRepository _dbRepository;
 
-        public FeedbackFormsSearchController(IRepository repository)
+        public FeedbackFormController(IRepository repository)
         {
             _dbRepository = repository;
         }
@@ -21,7 +21,7 @@ namespace Speakr.TalksApi.Controllers
         [Route("feedbackform")]
         [SwaggerSummary("Get FeedbackForm by easy access key (string)")]
         [SwaggerNotes("Url: /feedbackform?key={easyAccessKey}")]
-        public async Task<IActionResult> GetFeedbackBykey([FromQuery] string key)
+        public async Task<IActionResult> GetFormBykey([FromQuery] string key)
         {
             var talk = _dbRepository.GetTalkByEasyAccessKey(key);
 
@@ -45,7 +45,7 @@ namespace Speakr.TalksApi.Controllers
             return Ok(feedbackForm);
         }
 
-        // {easyAccessKey}/FeedbackForm should be to EDIT/UPDATE feedback forms
+        // /talks/{talkId}/FeedbackForm should be to EDIT/UPDATE feedback forms
         // Add that controller action here
     }
 }

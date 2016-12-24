@@ -95,5 +95,12 @@ namespace Speakr.TalksApi.DataAccess
             var query = @"SELECT Id FROM `Talks` WHERE `Id` = @talkId";
             return _dapper.Query<int>(query, new { talkId }).Any();
         }
+
+        public List<TalkEntity> GetAllTalks()
+        {
+            var query = @"SELECT * FROM `Talks`";
+            return _dapper.Query<TalkEntity>(query, null).ToList();
+        }
+
     }
 }

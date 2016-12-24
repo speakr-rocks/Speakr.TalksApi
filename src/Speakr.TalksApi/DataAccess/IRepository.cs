@@ -15,5 +15,6 @@ namespace Speakr.TalksApi.DataAccess
         List<Question> GetQuestionnaire(int talkId);
         int GetTalkIdFromEasyAccessKey(string easyAccessKey);
         bool CheckTalkIdExists(int talkId);
+        List<TalkEntity> GetAllTalks();
     }
 }
