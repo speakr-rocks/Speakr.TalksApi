@@ -6,27 +6,27 @@ using Speakr.TalksApi.Swagger;
 
 namespace Speakr.TalksApi.Controllers
 {
-    [Route("talks")]
-    public class FeedbackFormsController : Controller
+    [Route("")]
+    public class FeedbackFormsSearchController : Controller
     {
         private readonly IRepository _dbRepository;
 
-        public FeedbackFormsController(IRepository repository)
+        public FeedbackFormsSearchController(IRepository repository)
         {
             _dbRepository = repository;
         }
 
         [HttpGet]
         [Produces(typeof(FeedbackForm))]
-        [Route("{easyAccessKey}/FeedbackForm")]
+        [Route("feedbackform")]
         [SwaggerSummary("Get FeedbackForm by easy access key (string)")]
-        [SwaggerNotes("Url: /talks/{easyAccessKey}/FeedbackForm")]
-        public async Task<IActionResult> GetFeedbackFormForTalk(string easyAccessKey)
+        [SwaggerNotes("Url: /feedbackform?key={easyAccessKey}")]
+        public async Task<IActionResult> GetFeedbackBykey([FromQuery] string key)
         {
-            var talk = _dbRepository.GetTalkByEasyAccessKey(easyAccessKey);
+            var talk = _dbRepository.GetTalkByEasyAccessKey(key);
 
             if (talk == null)
-                return NotFound($"Could not find talk with easy access key: {easyAccessKey}");
+                return NotFound($"Could not find talk with easy access key: {key}");
 
             var questionnaire = _dbRepository.GetQuestionnaire(talk.Id);
 

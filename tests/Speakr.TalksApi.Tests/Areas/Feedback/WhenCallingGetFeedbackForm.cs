@@ -17,7 +17,7 @@ namespace Speakr.TalksApi.Tests.Areas.Feedback
     {
         private IDapper _db;
         private IRepository _dbRepository;
-        private FeedbackFormsController _feedbackFormsController;
+        private FeedbackFormsSearchController _feedbackFormsController;
 
         private TalkEntity _expectedTalkDTO;
         private FeedbackForm _expectedFeedbackForm;
@@ -30,11 +30,10 @@ namespace Speakr.TalksApi.Tests.Areas.Feedback
         {
             _db = A.Fake<IDapper>();
             _dbRepository = new Repository(_db);
-            _feedbackFormsController = new FeedbackFormsController(_dbRepository);
+            _feedbackFormsController = new FeedbackFormsSearchController(_dbRepository);
 
-            _expectedFeedbackForm = FeedbackFormStub.GetTalkById(_expectedTalkId, _expectedEasyAccessKey);
-            _expectedTalkDTO = TalkEntityStub.GetTalk(_expectedTalkId, _expectedEasyAccessKey);
-            _expectedQuestionnaire = FeedbackFormStub.GetQuestionnaireAsJson();
+            _expectedTalkDTO = TalkEntityBuilder.BuildTalkEntityById(_expectedTalkId, _expectedEasyAccessKey);
+            _expectedQuestionnaire = FeedbackFormBuilder.GetQuestionnaireAsJson();
         }
 
         [Test]
@@ -50,7 +49,7 @@ namespace Speakr.TalksApi.Tests.Areas.Feedback
                     A<object>.Ignored))
                 .Returns(new List<string>() { _expectedQuestionnaire });
 
-            var action = await _feedbackFormsController.GetFeedbackFormForTalk("ThisKeyExist");
+            var action = await _feedbackFormsController.GetFeedbackBykey("ThisKeyExist");
             var result = (OkObjectResult)action;
 
             Assert.That(result.StatusCode, Is.EqualTo(200));
@@ -65,7 +64,7 @@ namespace Speakr.TalksApi.Tests.Areas.Feedback
                     A<object>.Ignored))
                 .Returns(new List<TalkEntity>());
 
-            var action = await _feedbackFormsController.GetFeedbackFormForTalk("KeyDoesNotExist");
+            var action = await _feedbackFormsController.GetFeedbackBykey("KeyDoesNotExist");
             var result = (NotFoundObjectResult)action;
 
             Assert.That(result.StatusCode, Is.EqualTo(404));
@@ -85,7 +84,7 @@ namespace Speakr.TalksApi.Tests.Areas.Feedback
                     A<object>.Ignored))
                 .Returns(new List<string>() { "" });
 
-            var action = await _feedbackFormsController.GetFeedbackFormForTalk("FormDoesNotExist");
+            var action = await _feedbackFormsController.GetFeedbackBykey("FormDoesNotExist");
             var result = (NotFoundObjectResult)action;
 
             Assert.That(result.StatusCode, Is.EqualTo(404));
@@ -105,7 +104,7 @@ namespace Speakr.TalksApi.Tests.Areas.Feedback
                     A<object>.Ignored))
                 .Returns(new List<string>() { _expectedQuestionnaire });
 
-            var action = await _feedbackFormsController.GetFeedbackFormForTalk("ThisKeyExistForm");
+            var action = await _feedbackFormsController.GetFeedbackBykey("ThisKeyExistForm");
             var result = (OkObjectResult)action;
             var feedbackForm = (FeedbackForm)result.Value;
 
