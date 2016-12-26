@@ -23,7 +23,7 @@ namespace Speakr.TalksApi.Controllers
         [HttpGet]
         [Route("")]
         [Produces(typeof(IList<TalkEntity>))]
-        [SwaggerSummary("Get All Talks")]
+        [SwaggerSummary("Get All Talks, use query parameters as filters")]
         [SwaggerNotes("Url: /talks")]
         public async Task<IActionResult> GetTalks()
         {
