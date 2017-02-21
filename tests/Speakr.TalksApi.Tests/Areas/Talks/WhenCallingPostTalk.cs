@@ -36,7 +36,7 @@ namespace Speakr.TalksApi.Tests.Areas.Talks
 
             _talksController = new TalksController(_dbRepository);
 
-            _expectedTalk = TalkEntityStub.GetTalk(_talkId, _easyAccessKey);
+            _expectedTalk = TalkEntityBuilder.BuildTalkEntityById(_talkId, _easyAccessKey);
 
             _request = new TalkCreationRequest
             {

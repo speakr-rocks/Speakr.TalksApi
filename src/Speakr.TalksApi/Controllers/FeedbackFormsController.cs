@@ -6,27 +6,27 @@ using Speakr.TalksApi.Swagger;
 
 namespace Speakr.TalksApi.Controllers
 {
-    [Route("talks")]
-    public class FeedbackFormsController : Controller
+    [Route("")]
+    public class FeedbackFormController : Controller
     {
         private readonly IRepository _dbRepository;
 
-        public FeedbackFormsController(IRepository repository)
+        public FeedbackFormController(IRepository repository)
         {
             _dbRepository = repository;
         }
 
         [HttpGet]
         [Produces(typeof(FeedbackForm))]
-        [Route("{easyAccessKey}/FeedbackForm")]
+        [Route("feedbackform")]
         [SwaggerSummary("Get FeedbackForm by easy access key (string)")]
-        [SwaggerNotes("Url: /talks/{easyAccessKey}/FeedbackForm")]
-        public async Task<IActionResult> GetFeedbackFormForTalk(string easyAccessKey)
+        [SwaggerNotes("Url: /feedbackform?key={easyAccessKey}")]
+        public async Task<IActionResult> GetFormBykey([FromQuery] string key)
         {
-            var talk = _dbRepository.GetTalkByEasyAccessKey(easyAccessKey);
+            var talk = _dbRepository.GetTalkByEasyAccessKey(key);
 
             if (talk == null)
-                return NotFound($"Could not find talk with easy access key: {easyAccessKey}");
+                return NotFound($"Could not find talk with easy access key: {key}");
 
             var questionnaire = _dbRepository.GetQuestionnaire(talk.Id);
 
@@ -45,7 +45,7 @@ namespace Speakr.TalksApi.Controllers
             return Ok(feedbackForm);
         }
 
-        // {easyAccessKey}/FeedbackForm should be to EDIT/UPDATE feedback forms
+        // /talks/{talkId}/FeedbackForm should be to EDIT/UPDATE feedback forms
         // Add that controller action here
     }
 }
