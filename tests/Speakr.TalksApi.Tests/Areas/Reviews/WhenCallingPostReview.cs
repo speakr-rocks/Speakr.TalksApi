@@ -9,6 +9,7 @@ using System.Collections.Generic;
 
 namespace Speakr.TalksApi.Tests.Areas.Feedback
 {
+    [TestFixture]
     public class WhenCallingPostReview
     {
         private IDapper _db;
@@ -30,7 +31,6 @@ namespace Speakr.TalksApi.Tests.Areas.Feedback
 
             _talkId = 9999;
             _expectedReviewId = 1000;
-            _easyAccessKey = "sad_einstein";
 
             _request = new FeedbackResponse
             {
@@ -43,7 +43,7 @@ namespace Speakr.TalksApi.Tests.Areas.Feedback
         {
             A.CallTo(() =>
                 _db.Query<int>(
-                    A<string>.That.Contains("SELECT Id FROM `Talks`"),
+                    A<string>.That.Contains("SELECT Id"),
                     A<object>.Ignored)
                 ).Returns(new List<int> { _talkId });
 
@@ -53,7 +53,7 @@ namespace Speakr.TalksApi.Tests.Areas.Feedback
                     A<object>.Ignored)
                 ).Returns(new List<int> { _expectedReviewId });
 
-            var result = _reviewsController.PostReviewForTalk("12345", _request);
+            var result = _reviewsController.PostReviewForTalk(_talkId, _request);
             var response = (CreatedAtActionResult)result;
 
             Assert.That(result, Is.TypeOf<CreatedAtActionResult>());
@@ -66,18 +66,69 @@ namespace Speakr.TalksApi.Tests.Areas.Feedback
         }
 
         [Test]
-        public void Returns409IfTalkDoesNotExist()
+        public void Returns409IfTalkIdDontMatch()
         {
-            A.CallTo(() =>
-                _db.Query<int>(
-                    A<string>.That.Contains("SELECT Id FROM `Talks`"),
-                    A<object>.Ignored)
-                ).Returns(new List<int> { 0 });
-
-            var result = _reviewsController.PostReviewForTalk("12345", _request);
+            var result = _reviewsController.PostReviewForTalk(12345, _request);
             var response = (ObjectResult)result;
 
             Assert.That(result, Is.TypeOf<ObjectResult>());
+            Assert.That(response.StatusCode, Is.EqualTo(409));
+            Assert.That(response.Value, Is.EqualTo("Talk Id does not match the post body"));
+
+            A.CallTo(() =>
+                _db.Query<int>(
+                    A<string>.That.Contains("SELECT Id"),
+                    A<object>.Ignored)
+                ).MustNotHaveHappened();
+
+            A.CallTo(() =>
+                _db.Query<int>(
+                    A<string>.That.Contains("INSERT INTO `Reviews`"),
+                    A<object>.Ignored)
+                ).MustNotHaveHappened();
+        }
+
+        [Test]
+        public void Returns409IfTalkIdIsInvalid()
+        {
+            var invalidTalkId = 0;
+
+            var result = _reviewsController.PostReviewForTalk(0, _request);
+            var response = (ObjectResult)result;
+
+            Assert.That(result, Is.TypeOf<ObjectResult>());
+            Assert.That(response.StatusCode, Is.EqualTo(409));
+            Assert.That(response.Value, Is.EqualTo("Invalid talk Id"));
+
+            A.CallTo(() =>
+                _db.Query<int>(
+                    A<string>.That.Contains("SELECT Id"),
+                    A<object>.Ignored)
+                ).MustNotHaveHappened();
+
+            A.CallTo(() =>
+                _db.Query<int>(
+                    A<string>.That.Contains("INSERT INTO `Reviews`"),
+                    A<object>.Ignored)
+                ).MustNotHaveHappened();
+        }
+
+        [Test]
+        public void Returns409IfTalkDoesNotExist()
+        {
+            A.CallTo(() => 
+                _db.Query<int>(
+                    A<string>.That.Contains("SELECT Id"),
+                    A<object>.Ignored)
+                ).Returns(new List<int> { });
+
+            var result = _reviewsController.PostReviewForTalk(_talkId, _request);
+            var response = (ObjectResult)result;
+
+            Assert.That(result, Is.TypeOf<ObjectResult>());
+            Assert.That(response.StatusCode, Is.EqualTo(409));
+            Assert.That(response.Value, Is.EqualTo("TalkId could not be found"));
+
             A.CallTo(() =>
                 _db.Query<int>(
                     A<string>.That.Contains("INSERT INTO `Reviews`"),

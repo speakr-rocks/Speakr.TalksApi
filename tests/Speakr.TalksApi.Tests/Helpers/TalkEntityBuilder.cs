@@ -2,9 +2,9 @@
 
 namespace Speakr.TalksApi.Tests.Helpers
 {
-    public static class TalkEntityStub
+    public static class TalkEntityBuilder
     {
-        public static TalkEntity GetTalk(int id, string easyaccesskey)
+        public static TalkEntity BuildTalkEntityById(int id, string easyaccesskey)
         {
             return new TalkEntity
             {

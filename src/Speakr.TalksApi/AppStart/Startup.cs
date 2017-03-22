@@ -1,10 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using Speakr.TalksApi.DataAccess;
-using Speakr.TalksApi.DataAccess.DbAccess;
-using Speakr.TalksApi.Swagger;
-using Swashbuckle.Swagger.Model;
 
 namespace Speakr.TalksApi.AppStart
 {

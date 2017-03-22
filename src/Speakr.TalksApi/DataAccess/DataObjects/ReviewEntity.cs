@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using Speakr.TalksApi.Models.FeedbackForm;
+﻿using Speakr.TalksApi.Models.FeedbackForm;
 using System;
 using System.Collections.Generic;
 

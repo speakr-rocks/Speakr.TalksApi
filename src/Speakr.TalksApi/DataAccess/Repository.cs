@@ -4,7 +4,6 @@ using Speakr.TalksApi.Models.FeedbackForm;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Speakr.TalksApi.DataAccess.DataObjects;
-using System;
 
 namespace Speakr.TalksApi.DataAccess
 {
@@ -90,5 +89,18 @@ namespace Speakr.TalksApi.DataAccess
             var query = @"SELECT Id FROM `Talks` WHERE `EasyAccessKey` = @easyAccessKey;";
             return _dapper.Query<int>(query, new { easyAccessKey }).FirstOrDefault();
         }
+
+        public bool CheckTalkIdExists(int talkId)
+        {
+            var query = @"SELECT Id FROM `Talks` WHERE `Id` = @talkId";
+            return _dapper.Query<int>(query, new { talkId }).Any();
+        }
+
+        public List<TalkEntity> GetAllTalks()
+        {
+            var query = @"SELECT * FROM `Talks`";
+            return _dapper.Query<TalkEntity>(query, null).ToList();
+        }
+
     }
 }
