@@ -18,7 +18,7 @@ namespace Speakr.TalksApi.Controllers
 
         [HttpGet]
         [Produces(typeof(FeedbackForm))]
-        [Route("feedbackform")]
+        [Route("Feedbackform")]
         [SwaggerSummary("Get FeedbackForm by easy access key (string)")]
         [SwaggerNotes("Url: /feedbackform?key={easyAccessKey}")]
         public async Task<IActionResult> GetFormBykey([FromQuery] string key)
@@ -47,5 +47,6 @@ namespace Speakr.TalksApi.Controllers
 
         // /talks/{talkId}/FeedbackForm should be to EDIT/UPDATE feedback forms
         // Add that controller action here
+        // These controllers need to be authenticated (talk owner ONLY!)
     }
 }
