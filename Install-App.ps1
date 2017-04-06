@@ -9,8 +9,8 @@
 
 # Point IIS wwwroot of the published folder. CodeDeploy uses 32 bit version of PowerShell.
 # To make use the IIS PowerShell CmdLets we need call the 64 bit version of PowerShell.
-C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -Command {Import-Module WebAdministration; Set-ItemProperty 'IIS:\AppPools\DefaultAppPool' -Name managedRuntimeVersion -Value ""}
-C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -Command {Import-Module WebAdministration; Set-ItemProperty 'IIS:\sites\Default Web Site' -Name physicalPath -Value c:\Speakr.TalksApi\publish}
+C:\Windows\SysWOW64\WindowsPowerShell\v1.0\powershell.exe -Command {Import-Module WebAdministration; Set-ItemProperty 'IIS:\AppPools\DefaultAppPool' -Name managedRuntimeVersion -Value ""}
+C:\Windows\SysWOW64\WindowsPowerShell\v1.0\powershell.exe -Command {Import-Module WebAdministration; Set-ItemProperty 'IIS:\sites\Default Web Site' -Name physicalPath -Value c:\Speakr.TalksApi\publish}
 
 # The AppPool connections will not be set properly if IIS is not reset:
 iisreset
