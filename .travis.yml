@@ -20,10 +20,11 @@ script:
   - dotnet restore
   - dotnet build src/Speakr.TalksApi
   - dotnet build tests/Speakr.TalksApi.Tests
+  - dotnet build tests/Speakr.TalksApi.AcceptanceTests
 #  - dotnet test tests/Speakr.TalksApi.Tests
 #  - dotnet test tests/Speakr.TalksApi.AcceptanceTests
-  - dotnet run -p test/Speakr.TalksApi.Tests/Speakr.TalksApi.Tests.csproj -f netcoreapp1.1
-  - dotnet run -p test/Speakr.TalksApi.AcceptanceTests/Speakr.TalksApi.AcceptanceTests.csproj -f netcoreapp1.1
+  - dotnet run -p tests/Speakr.TalksApi.Tests/Speakr.TalksApi.Tests.csproj -f netcoreapp1.1
+  - dotnet run -p tests/Speakr.TalksApi.AcceptanceTests/Speakr.TalksApi.AcceptanceTests.csproj -f netcoreapp1.1
 
 before_deploy:
   - zip -r $(date +'TalksApi-%F').zip *

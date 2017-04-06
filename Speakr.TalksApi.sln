@@ -15,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Remove-App.ps1 = Remove-App.ps1
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{96F0562A-FADE-413C-8AF9-AA1703993B4C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{96F0562A-FADE-413C-8AF9-AA1703993B4C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Speakr.TalksApi", "src\Speakr.TalksApi\Speakr.TalksApi.csproj", "{1AB3370A-FC3B-47A8-961B-3BE3E791A589}"
 EndProject
