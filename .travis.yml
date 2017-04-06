@@ -5,7 +5,7 @@ dotnet: 1.0.1
 dist: trusty
 
 env:
-  - ARTIFACT_NAME=$(date +'TalksApi-%F-$TRAVIS_BUILD_ID')
+  - ARTIFACT_NAME=$(date +'TalksApi-%F')-${TRAVIS_BUILD_ID}
 
 addons:
   apt:
