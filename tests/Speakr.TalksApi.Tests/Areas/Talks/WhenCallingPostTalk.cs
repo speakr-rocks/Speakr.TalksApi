@@ -110,7 +110,7 @@ namespace Speakr.TalksApi.Tests.Areas.Talks
             var response = (CreatedAtActionResult)result;
 
             Assert.That(response.ActionName, Is.EqualTo("GetTalkById"));
-            Assert.That(response.Value, Is.EqualTo(111111));
+            Assert.That(response.Value, Is.EqualTo("Talk successfully created"));
         }
     }
 }

@@ -39,7 +39,7 @@ namespace Speakr.TalksApi.Controllers
         {
             var talkDTO = CreateNewTalk(request);
             var talkId = _dbRepository.InsertTalk(talkDTO);
-            return CreatedAtAction("GetTalkById", "?talkId=", talkId);
+            return CreatedAtAction("GetTalkById", "Talks", new { TalkId = talkId }, "Talk successfully created");
         }
 
         [HttpGet]

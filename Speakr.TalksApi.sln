@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{31F7ED16-2642-4526-AF4E-C95EF79B23DA}"
 EndProject
@@ -10,19 +10,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitignore = .gitignore
 		.travis.yml = .travis.yml
 		appspec.yml = appspec.yml
-		global.json = global.json
 		Install-App.ps1 = Install-App.ps1
 		NuGet.config = NuGet.config
 		Remove-App.ps1 = Remove-App.ps1
 	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Speakr.TalksApi", "src\Speakr.TalksApi\Speakr.TalksApi.xproj", "{1AB3370A-FC3B-47A8-961B-3BE3E791A589}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{96F0562A-FADE-413C-8AF9-AA1703993B4C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{96F0562A-FADE-413C-8AF9-AA1703993B4C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Speakr.TalksApi", "src\Speakr.TalksApi\Speakr.TalksApi.csproj", "{1AB3370A-FC3B-47A8-961B-3BE3E791A589}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Speakr.TalksApi.Tests", "tests\Speakr.TalksApi.Tests\Speakr.TalksApi.Tests.xproj", "{7EDB7DAF-D371-4783-AC2C-2DE77D2FA73B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Speakr.TalksApi.Tests", "tests\Speakr.TalksApi.Tests\Speakr.TalksApi.Tests.csproj", "{7EDB7DAF-D371-4783-AC2C-2DE77D2FA73B}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Speakr.TalksApi.AcceptanceTests", "tests\Speakr.TalksApi.AcceptanceTests\Speakr.TalksApi.AcceptanceTests.xproj", "{CD4736C4-4CFE-477C-B63F-89933EDC357F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Speakr.TalksApi.AcceptanceTests", "tests\Speakr.TalksApi.AcceptanceTests\Speakr.TalksApi.AcceptanceTests.csproj", "{CD4736C4-4CFE-477C-B63F-89933EDC357F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

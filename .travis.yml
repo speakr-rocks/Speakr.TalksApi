@@ -1,7 +1,9 @@
-language: generic
-
-sudo: required
+language: csharp
+solution: Speakr.TalksApi.sln
+mono: none
+dotnet: 1.0.1
 dist: trusty
+
 
 addons:
   apt:
@@ -14,19 +16,15 @@ before_install:
   - mysql -u root -e 'create database speakrdb;'
   - echo "USE mysql;\nUPDATE user SET password=PASSWORD('root') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -u root
 
-install:
-# Install .net using linux CLI commands
-  - sudo sh -c 'echo "deb [arch=amd64] https://apt-mo.trafficmanager.net/repos/dotnet-release/ trusty main" > /etc/apt/sources.list.d/dotnetdev.list'
-  - sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 417A0893
-  - sudo apt-get update
-  - sudo apt-get install dotnet-dev-1.0.0-preview2-1-003177
-
 script:
   - dotnet restore
   - dotnet build src/Speakr.TalksApi
   - dotnet build tests/Speakr.TalksApi.Tests
-  - dotnet test tests/Speakr.TalksApi.Tests
-  - dotnet test tests/Speakr.TalksApi.AcceptanceTests
+  - dotnet build tests/Speakr.TalksApi.AcceptanceTests
+#  - dotnet test tests/Speakr.TalksApi.Tests
+#  - dotnet test tests/Speakr.TalksApi.AcceptanceTests
+  - dotnet run -p tests/Speakr.TalksApi.Tests/Speakr.TalksApi.Tests.csproj -f netcoreapp1.1
+  - dotnet run -p tests/Speakr.TalksApi.AcceptanceTests/Speakr.TalksApi.AcceptanceTests.csproj -f netcoreapp1.1
 
 before_deploy:
   - zip -r $(date +'TalksApi-%F').zip *
