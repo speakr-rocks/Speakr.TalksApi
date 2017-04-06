@@ -5,7 +5,7 @@ dotnet: 1.0.1
 dist: trusty
 
 env:
-  - ARTIFACT_NAME=$(date +'TalksApi-%F')-${TRAVIS_BUILD_ID}
+  - ARTIFACT_NAME="$(date +'TalksApi-%F')-$TRAVIS_BUILD_ID"
 
 addons:
   apt:
@@ -19,6 +19,7 @@ before_install:
   - echo "USE mysql;\nUPDATE user SET password=PASSWORD('root') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -u root
 
 script:
+  - echo $ARTIFACT_NAME
   - dotnet restore
   - dotnet build src/Speakr.TalksApi
   - dotnet build tests/Speakr.TalksApi.Tests
