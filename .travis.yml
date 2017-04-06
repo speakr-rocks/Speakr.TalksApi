@@ -4,6 +4,8 @@ mono: none
 dotnet: 1.0.1
 dist: trusty
 
+env:
+  - ARTIFACT_NAME=$(date +'TalksApi-%F-$TRAVIS_BUILD_ID')
 
 addons:
   apt:
@@ -27,9 +29,9 @@ script:
   - dotnet run -p tests/Speakr.TalksApi.AcceptanceTests/Speakr.TalksApi.AcceptanceTests.csproj -f netcoreapp1.1
 
 before_deploy:
-  - zip -r $(date +'TalksApi-%F').zip *
+  - zip -r $ARTIFACT_NAME.zip *
   - mkdir -p CodeDeploy_Artifacts
-  - mv $(date +'TalksApi-%F').zip CodeDeploy_Artifacts/$(date +'TalksApi-%F').zip
+  - mv $ARTIFACT_NAME.zip CodeDeploy_Artifacts/$ARTIFACT_NAME.zip
 
 deploy:
   - provider: s3
@@ -47,7 +49,7 @@ deploy:
     secret_access_key: $AWS_SECRET_KEY
     region: eu-west-1
     bucket: speakr-travisbuilds
-    key: TalksApi/$(date +'TalksApi-%F').zip
+    key: TalksApi/$ARTIFACT_NAME.zip
     application: speakr-talksapi-codedeploy
     deployment_group: speakr-talksapi-codedeploy-Fleet
     on: *2
