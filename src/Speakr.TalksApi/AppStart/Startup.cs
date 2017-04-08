@@ -1,21 +1,36 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Speakr.TalksApi.AppStart
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env) { }
+        public IHostingEnvironment Environment { get; set; }
+        public IConfigurationRoot Configuration { get; set; }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public Startup(IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
+            Environment = env;
+            Configuration = AppConfiguration.Configure(Environment);
+        }
+
+        public void Configure(IApplicationBuilder app)
+        {
+            if (Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
             app.UseStaticFiles();
+
+            var options = new JwtBearerOptions
+            {
+                Audience = Configuration["Auth0:TalksApiIdentifier"],
+                Authority = $"https://{Configuration["Auth0:Domain"]}/"
+            };
+            app.UseJwtBearerAuthentication(options);
 
             app.UseMvc();
 
@@ -25,9 +40,7 @@ namespace Speakr.TalksApi.AppStart
 
         public void ConfigureServices(IServiceCollection services)
         {
-            var configuration = Configuration.Configure();
-
-            IoCRegistry.RegisterDependencies(services, configuration);
+            IoCRegistry.RegisterDependencies(services, Configuration);
             SwaggerBootstrap.SetupSwagger(services);
 
             services.AddMvc();
