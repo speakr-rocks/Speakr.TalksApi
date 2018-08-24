@@ -34,7 +34,7 @@ namespace Speakr.TalksApi.DataAccess.DbAccess
                     return conn.Query<T>(sql);
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 throw;
             }
@@ -49,7 +49,7 @@ namespace Speakr.TalksApi.DataAccess.DbAccess
                     return conn.Query<T>(sql, parameters as object);
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 throw;
             }
