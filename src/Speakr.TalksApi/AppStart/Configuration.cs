@@ -1,16 +1,13 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 
 namespace Speakr.TalksApi.AppStart
 {
-    public class AppConfiguration
+    public class Configuration
     {
-        public static IConfigurationRoot Configure(IHostingEnvironment env)
+        public static IConfigurationRoot Configure()
         {
             var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddEnvironmentVariables()
-                .AddJsonFile("auth0.json");
+                .AddEnvironmentVariables();
 
             var configurationRoot = builder.Build();
             GenerateDbConnectionString(configurationRoot);
